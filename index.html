@@ -179,6 +179,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .ai-header{padding:10px 12px;background:rgba(240,192,64,0.06);border-bottom:1px solid rgba(240,192,64,0.1);display:flex;align-items:center;gap:7px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:0.4px}
 .ai-pulse{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(2px)}to{opacity:1;transform:translateY(0)}}
 .ai-messages{padding:10px 12px;max-height:180px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
 .ai-msg{font-size:12px;line-height:1.6;white-space:pre-wrap}
 .ai-input-row{padding:8px 12px;border-top:1px solid rgba(240,192,64,0.08);display:flex;gap:7px}
@@ -691,11 +692,42 @@ function AddDeliverableRow({phaseColor, onAdd}) {
 // ── MAIN APP ─────────────────────────────────────────────────────────────────
 function App() {
   const [apiKey,setApiKey]         = useState(()=>localStorage.getItem("trajectory_apikey")||null);
-  const [phases,setPhases]         = useState(()=>INIT_PHASES.map(p=>({...p,tasks:p.tasks.map(t=>({...t})),deliverables:[...p.deliverables]})));
-  const [activePhase,setActivePhase] = useState(0);
+  const [phases,setPhases]         = useState(()=>{
+    try{
+      const s=localStorage.getItem("trajectory_phases");
+      if(s) return JSON.parse(s);
+    }catch(e){}
+    return INIT_PHASES.map(p=>({...p,tasks:p.tasks.map(t=>({...t})),deliverables:[...p.deliverables]}));
+  });
+  const [activePhase,setActivePhase] = useState(()=>{
+    try{ return parseInt(localStorage.getItem("trajectory_activePhase")||"0",10); }catch(e){ return 0; }
+  });
   const [activeSH,setActiveSH]     = useState("all");
-  const [productName,setProductName] = useState("My Product");
-  const [notes,setNotes]           = useState({});
+  const [productName,setProductName] = useState(()=>{
+    try{ return localStorage.getItem("trajectory_productName")||"My Product"; }catch(e){ return "My Product"; }
+  });
+  const [notes,setNotes]           = useState(()=>{
+    try{
+      const s=localStorage.getItem("trajectory_notes");
+      if(s) return JSON.parse(s);
+    }catch(e){}
+    return {};
+  });
+
+  const [savedToast,setSavedToast] = useState(false);
+  const saveTimer = useRef(null);
+
+  // show "Saved" toast whenever phases/notes/name change
+  useEffect(()=>{
+    clearTimeout(saveTimer.current);
+    setSavedToast(true);
+    saveTimer.current=setTimeout(()=>setSavedToast(false),1800);
+  },[phases,notes,productName]);
+  useEffect(()=>{ try{ localStorage.setItem("trajectory_phases",JSON.stringify(phases)); }catch(e){} },[phases]);
+  useEffect(()=>{ try{ localStorage.setItem("trajectory_productName",productName); }catch(e){} },[productName]);
+  useEffect(()=>{ try{ localStorage.setItem("trajectory_notes",JSON.stringify(notes)); }catch(e){} },[notes]);
+  useEffect(()=>{ try{ localStorage.setItem("trajectory_activePhase",String(activePhase)); }catch(e){} },[activePhase]);
+  // ──────────────────────────────────────────────────────────────────────────
   const [aiChats,setAiChats]       = useState({});
   const [aiInput,setAiInput]       = useState("");
   const [aiLoading,setAiLoading]   = useState(false);
@@ -806,9 +838,16 @@ function App() {
         <div className="plc-header-right">
           <input className="plc-product-input" value={productName}
             onChange={e=>setProductName(e.target.value)} placeholder="Product name…"/>
-          <button className="hdr-btn gold" onClick={()=>setShowExport(true)}>
+          {savedToast&&<span style={{fontSize:11,color:"#34d399",display:"flex",alignItems:"center",gap:4,animation:"fadeIn 0.3s ease"}}><span>✓</span> Saved</span>}
             <span>📤</span> Export
           </button>
+          <button className="hdr-btn" title="Reset all progress & data" onClick={()=>{
+            if(window.confirm("Reset all progress, tasks and notes? This cannot be undone.")){
+              ["trajectory_phases","trajectory_productName","trajectory_notes","trajectory_activePhase"].forEach(k=>localStorage.removeItem(k));
+              setPhases(INIT_PHASES.map(p=>({...p,tasks:p.tasks.map(t=>({...t})),deliverables:[...p.deliverables]})));
+              setProductName("My Product"); setNotes({}); setActivePhase(0);
+            }
+          }}>↺ Reset</button>
           <button className="hdr-btn" onClick={()=>{localStorage.removeItem("trajectory_apikey");setApiKey(null);}}>
             🔑 API Key
           </button>
@@ -875,14 +914,14 @@ function App() {
             {visibleTasks.map(task=>{
               const o=OWNER_MAP[task.owner]||{label:task.owner,color:"#94a3b8"};
               return (
-                <div key={task.id} className="task-item" style={{opacity:task.done?0.45:1}}
+                <div key={task.id} className="task-item" style={task.done?{background:"rgba(52,211,153,0.08)",borderColor:"rgba(52,211,153,0.3)"}:{}}
                   onClick={e=>{if(!e.target.closest(".task-del-btn"))toggleTask(task.id);}}>
                   <div className="task-check"
                     style={task.done?{background:pc,borderColor:pc,color:"#0a0c10"}:{}}>
                     {task.done?"✓":""}
                   </div>
                   <div className="task-title"
-                    style={task.done?{textDecoration:"line-through",color:"var(--text2)"}:{}}>{task.title}</div>
+                    style={task.done?{color:"#34d399",fontWeight:500}:{}}>{task.title}</div>
                   <div className="task-meta">
                     <span className="task-owner" style={{color:o.color}}>{o.label}</span>
                     <span className={`task-pri pri-${task.priority}`}>{task.priority}</span>
