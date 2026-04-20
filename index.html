@@ -839,6 +839,7 @@ function App() {
           <input className="plc-product-input" value={productName}
             onChange={e=>setProductName(e.target.value)} placeholder="Product name…"/>
           {savedToast&&<span style={{fontSize:11,color:"#34d399",display:"flex",alignItems:"center",gap:4,animation:"fadeIn 0.3s ease"}}><span>✓</span> Saved</span>}
+          <button className="hdr-btn gold" onClick={()=>setShowExport(true)}>
             <span>📤</span> Export
           </button>
           <button className="hdr-btn" title="Reset all progress & data" onClick={()=>{
