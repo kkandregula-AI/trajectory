@@ -1,633 +1,848 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Trajectory — AI Product Lifecycle</title>
-
-  <!-- ── PWA & APP ICONS ─────────────────────────────────── -->
-  <meta name="theme-color" content="#f0c040" />
-  <meta name="application-name" content="Trajectory" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Trajectory" />
-  <meta name="description" content="AI-powered product lifecycle management — concept to post-release." />
-
-  <!-- SVG Favicon (all modern browsers) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmI5MjNjIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjZjBjMDQwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZkZTY4YSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGYxMjE4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzE2MWIyNCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBCYWNrZ3JvdW5kIHJvdW5kZWQgc3F1YXJlIC0tPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iOTYiIGZpbGw9InVybCgjYmcpIi8+CiAgPCEtLSBTdWJ0bGUgZ3JpZCBkb3RzIC0tPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjQxMiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjQxMiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjM1MiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjM1MiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDwhLS0gVHJhamVjdG9yeSBjdXJ2ZSBwYXRoIC0tPgogIDxwYXRoIGQ9Ik0gMTEwIDQxMCBDIDE2MCAzNzAgMjAwIDMyMCAyNTYgMjU2IEMgMzEwIDE5MiAzNjAgMTUwIDQwMCAxMDAiCiAgICBzdHJva2U9InVybCgjZ3JhZCkiIHN0cm9rZS13aWR0aD0iMjIiIGZpbGw9Im5vbmUiCiAgICBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIG9wYWNpdHk9IjAuOSIvPgogIDwhLS0gUGhhc2Ugbm9kZXMgYWxvbmcgcGF0aCAtLT4KICA8Y2lyY2xlIGN4PSIxMTAiIGN5PSI0MTAiIHI9IjE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGNpcmNsZSBjeD0iMTgzIiBjeT0iMzM0IiByPSIxNCIgZmlsbD0idXJsKCNncmFkKSIgb3BhY2l0eT0iMC44Ii8+CiAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIxNiIgZmlsbD0idXJsKCNncmFkKSIgb3BhY2l0eT0iMC44NSIvPgogIDxjaXJjbGUgY3g9IjMyOCIgY3k9IjE3OCIgcj0iMTQiIGZpbGw9InVybCgjZ3JhZCkiIG9wYWNpdHk9IjAuODgiLz4KICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIxMDAiIHI9IjE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPCEtLSBBcnJvdyB0aXAgYXQgdG9wIHJpZ2h0IC0tPgogIDxwb2x5Z29uIHBvaW50cz0iNDAwLDEwMCA0MzUsNjggNDMwLDExMCAzOTIsMTE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPCEtLSBHbG93IHJpbmcgb24gZW5kIG5vZGUgLS0+CiAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMTAwIiByPSIyOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dyYWQpIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuMyIvPgo8L3N2Zz4=" />
-  <!-- Apple Touch Icon -->
-  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmI5MjNjIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjZjBjMDQwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZkZTY4YSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGYxMjE4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzE2MWIyNCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBCYWNrZ3JvdW5kIHJvdW5kZWQgc3F1YXJlIC0tPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iOTYiIGZpbGw9InVybCgjYmcpIi8+CiAgPCEtLSBTdWJ0bGUgZ3JpZCBkb3RzIC0tPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjQxMiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjQxMiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjM1MiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjM1MiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDwhLS0gVHJhamVjdG9yeSBjdXJ2ZSBwYXRoIC0tPgogIDxwYXRoIGQ9Ik0gMTEwIDQxMCBDIDE2MCAzNzAgMjAwIDMyMCAyNTYgMjU2IEMgMzEwIDE5MiAzNjAgMTUwIDQwMCAxMDAiCiAgICBzdHJva2U9InVybCgjZ3JhZCkiIHN0cm9rZS13aWR0aD0iMjIiIGZpbGw9Im5vbmUiCiAgICBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIG9wYWNpdHk9IjAuOSIvPgogIDwhLS0gUGhhc2Ugbm9kZXMgYWxvbmcgcGF0aCAtLT4KICA8Y2lyY2xlIGN4PSIxMTAiIGN5PSI0MTAiIHI9IjE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGNpcmNsZSBjeD0iMTgzIiBjeT0iMzM0IiByPSIxNCIgZmlsbD0idXJsKCNncmFkKSIgb3BhY2l0eT0iMC44Ii8+CiAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIxNiIgZmlsbD0idXJsKCNncmFkKSIgb3BhY2l0eT0iMC44NSIvPgogIDxjaXJjbGUgY3g9IjMyOCIgY3k9IjE3OCIgcj0iMTQiIGZpbGw9InVybCgjZ3JhZCkiIG9wYWNpdHk9IjAuODgiLz4KICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIxMDAiIHI9IjE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPCEtLSBBcnJvdyB0aXAgYXQgdG9wIHJpZ2h0IC0tPgogIDxwb2x5Z29uIHBvaW50cz0iNDAwLDEwMCA0MzUsNjggNDMwLDExMCAzOTIsMTE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPCEtLSBHbG93IHJpbmcgb24gZW5kIG5vZGUgLS0+CiAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMTAwIiByPSIyOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dyYWQpIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuMyIvPgo8L3N2Zz4=" />
-  <!-- PWA Manifest (inline) -->
-  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlRyYWplY3Rvcnkg4oCUIFByb2R1Y3QgTGlmZWN5Y2xlIiwKICAic2hvcnRfbmFtZSI6ICJUcmFqZWN0b3J5IiwKICAiZGVzY3JpcHRpb24iOiAiQUktcG93ZXJlZCBwcm9kdWN0IGxpZmVjeWNsZSBtYW5hZ2VtZW50IGZyb20gY29uY2VwdCB0byBwb3N0LXJlbGVhc2UiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBhMGMxMCIsCiAgInRoZW1lX2NvbG9yIjogIiNmMGMwNDAiLAogICJvcmllbnRhdGlvbiI6ICJhbnkiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBMU1USWdOVEV5SWlCM2FXUjBhRDBpTlRFeUlpQm9aV2xuYUhROUlqVXhNaUkrQ2lBZ1BHUmxabk0rQ2lBZ0lDQThiR2x1WldGeVIzSmhaR2xsYm5RZ2FXUTlJbWR5WVdRaUlIZ3hQU0l3SlNJZ2VURTlJakV3TUNVaUlIZ3lQU0l4TURBbElpQjVNajBpTUNVaVBnb2dJQ0FnSUNBOGMzUnZjQ0J2Wm1aelpYUTlJakFsSWlCemRHOXdMV052Ykc5eVBTSWpabUk1TWpOaklpOCtDaUFnSUNBZ0lEeHpkRzl3SUc5bVpuTmxkRDBpTlRBbElpQnpkRzl3TFdOdmJHOXlQU0lqWmpCak1EUXdJaTgrQ2lBZ0lDQWdJRHh6ZEc5d0lHOW1abk5sZEQwaU1UQXdKU0lnYzNSdmNDMWpiMnh2Y2owaUkyWmtaVFk0WVNJdlBnb2dJQ0FnUEM5c2FXNWxZWEpIY21Ga2FXVnVkRDRLSUNBZ0lEeHNhVzVsWVhKSGNtRmthV1Z1ZENCcFpEMGlZbWNpSUhneFBTSXdKU0lnZVRFOUlqQWxJaUI0TWowaU1UQXdKU0lnZVRJOUlqRXdNQ1VpUGdvZ0lDQWdJQ0E4YzNSdmNDQnZabVp6WlhROUlqQWxJaUJ6ZEc5d0xXTnZiRzl5UFNJak1HWXhNakU0SWk4K0NpQWdJQ0FnSUR4emRHOXdJRzltWm5ObGREMGlNVEF3SlNJZ2MzUnZjQzFqYjJ4dmNqMGlJekUyTVdJeU5DSXZQZ29nSUNBZ1BDOXNhVzVsWVhKSGNtRmthV1Z1ZEQ0S0lDQThMMlJsWm5NK0NpQWdQQ0V0TFNCQ1lXTnJaM0p2ZFc1a0lISnZkVzVrWldRZ2MzRjFZWEpsSUMwdFBnb2dJRHh5WldOMElIZHBaSFJvUFNJMU1USWlJR2hsYVdkb2REMGlOVEV5SWlCeWVEMGlPVFlpSUdacGJHdzlJblZ5YkNnalltY3BJaTgrQ2lBZ1BDRXRMU0JUZFdKMGJHVWdaM0pwWkNCa2IzUnpJQzB0UGdvZ0lEeGphWEpqYkdVZ1kzZzlJakV3TUNJZ1kzazlJalF4TWlJZ2NqMGlNeUlnWm1sc2JEMGljbWRpWVNneU5UVXNNalUxTERJMU5Td3dMakEyS1NJdlBnb2dJRHhqYVhKamJHVWdZM2c5SWpFMk1DSWdZM2s5SWpReE1pSWdjajBpTXlJZ1ptbHNiRDBpY21kaVlTZ3lOVFVzTWpVMUxESTFOU3d3TGpBMktTSXZQZ29nSUR4amFYSmpiR1VnWTNnOUlqRXdNQ0lnWTNrOUlqTTFNaUlnY2owaU15SWdabWxzYkQwaWNtZGlZU2d5TlRVc01qVTFMREkxTlN3d0xqQTJLU0l2UGdvZ0lEeGphWEpqYkdVZ1kzZzlJakUyTUNJZ1kzazlJak0xTWlJZ2NqMGlNeUlnWm1sc2JEMGljbWRpWVNneU5UVXNNalUxTERJMU5Td3dMakEyS1NJdlBnb2dJRHdoTFMwZ1ZISmhhbVZqZEc5eWVTQmpkWEoyWlNCd1lYUm9JQzB0UGdvZ0lEeHdZWFJvSUdROUlrMGdNVEV3SURReE1DQkRJREUyTUNBek56QWdNakF3SURNeU1DQXlOVFlnTWpVMklFTWdNekV3SURFNU1pQXpOakFnTVRVd0lEUXdNQ0F4TURBaUNpQWdJQ0J6ZEhKdmEyVTlJblZ5YkNnalozSmhaQ2tpSUhOMGNtOXJaUzEzYVdSMGFEMGlNaklpSUdacGJHdzlJbTV2Ym1VaUNpQWdJQ0J6ZEhKdmEyVXRiR2x1WldOaGNEMGljbTkxYm1RaUlITjBjbTlyWlMxc2FXNWxhbTlwYmowaWNtOTFibVFpSUc5d1lXTnBkSGs5SWpBdU9TSXZQZ29nSUR3aExTMGdVR2hoYzJVZ2JtOWtaWE1nWVd4dmJtY2djR0YwYUNBdExUNEtJQ0E4WTJseVkyeGxJR040UFNJeE1UQWlJR041UFNJME1UQWlJSEk5SWpFNElpQm1hV3hzUFNKMWNtd29JMmR5WVdRcElpQnZjR0ZqYVhSNVBTSXdMamsxSWk4K0NpQWdQR05wY21Oc1pTQmplRDBpTVRneklpQmplVDBpTXpNMElpQnlQU0l4TkNJZ1ptbHNiRDBpZFhKc0tDTm5jbUZrS1NJZ2IzQmhZMmwwZVQwaU1DNDRJaTgrQ2lBZ1BHTnBjbU5zWlNCamVEMGlNalUySWlCamVUMGlNalUySWlCeVBTSXhOaUlnWm1sc2JEMGlkWEpzS0NObmNtRmtLU0lnYjNCaFkybDBlVDBpTUM0NE5TSXZQZ29nSUR4amFYSmpiR1VnWTNnOUlqTXlPQ0lnWTNrOUlqRTNPQ0lnY2owaU1UUWlJR1pwYkd3OUluVnliQ2dqWjNKaFpDa2lJRzl3WVdOcGRIazlJakF1T0RnaUx6NEtJQ0E4WTJseVkyeGxJR040UFNJME1EQWlJR041UFNJeE1EQWlJSEk5SWpFNElpQm1hV3hzUFNKMWNtd29JMmR5WVdRcElpQnZjR0ZqYVhSNVBTSXdMamsxSWk4K0NpQWdQQ0V0TFNCQmNuSnZkeUIwYVhBZ1lYUWdkRzl3SUhKcFoyaDBJQzB0UGdvZ0lEeHdiMng1WjI5dUlIQnZhVzUwY3owaU5EQXdMREV3TUNBME16VXNOamdnTkRNd0xERXhNQ0F6T1RJc01URTRJaUJtYVd4c1BTSjFjbXdvSTJkeVlXUXBJaUJ2Y0dGamFYUjVQU0l3TGprMUlpOCtDaUFnUENFdExTQkhiRzkzSUhKcGJtY2diMjRnWlc1a0lHNXZaR1VnTFMwK0NpQWdQR05wY21Oc1pTQmplRDBpTkRBd0lpQmplVDBpTVRBd0lpQnlQU0l5T0NJZ1ptbHNiRDBpYm05dVpTSWdjM1J5YjJ0bFBTSjFjbXdvSTJkeVlXUXBJaUJ6ZEhKdmEyVXRkMmxrZEdnOUlqTWlJRzl3WVdOcGRIazlJakF1TXlJdlBnbzhMM04yWno0PSIsCiAgICAgICJzaXplcyI6ICJhbnkiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==" />
-
-  <!-- ── FONTS ────────────────────────────────────────────── -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
-
-  <!-- ── REACT + BABEL CDN ─────────────────────────────────── -->
+  <meta name="theme-color" content="#f0c040"/>
+  <meta name="application-name" content="Trajectory"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Trajectory"/>
+  <meta name="description" content="AI-powered product lifecycle management — concept to post-release."/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmI5MjNjIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjZjBjMDQwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZkZTY4YSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGYxMjE4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzE2MWIyNCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBCYWNrZ3JvdW5kIHJvdW5kZWQgc3F1YXJlIC0tPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iOTYiIGZpbGw9InVybCgjYmcpIi8+CiAgPCEtLSBTdWJ0bGUgZ3JpZCBkb3RzIC0tPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjQxMiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjQxMiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjM1MiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjM1MiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDwhLS0gVHJhamVjdG9yeSBjdXJ2ZSBwYXRoIC0tPgogIDxwYXRoIGQ9Ik0gMTEwIDQxMCBDIDE2MCAzNzAgMjAwIDMyMCAyNTYgMjU2IEMgMzEwIDE5MiAzNjAgMTUwIDQwMCAxMDAiCiAgICBzdHJva2U9InVybCgjZ3JhZCkiIHN0cm9rZS13aWR0aD0iMjIiIGZpbGw9Im5vbmUiCiAgICBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIG9wYWNpdHk9IjAuOSIvPgogIDwhLS0gUGhhc2Ugbm9kZXMgYWxvbmcgcGF0aCAtLT4KICA8Y2lyY2xlIGN4PSIxMTAiIGN5PSI0MTAiIHI9IjE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGNpcmNsZSBjeD0iMTgzIiBjeT0iMzM0IiByPSIxNCIgZmlsbD0idXJsKCNncmFkKSIgb3BhY2l0eT0iMC44Ii8+CiAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIxNiIgZmlsbD0idXJsKCNncmFkKSIgb3BhY2l0eT0iMC44NSIvPgogIDxjaXJjbGUgY3g9IjMyOCIgY3k9IjE3OCIgcj0iMTQiIGZpbGw9InVybCgjZ3JhZCkiIG9wYWNpdHk9IjAuODgiLz4KICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIxMDAiIHI9IjE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPCEtLSBBcnJvdyB0aXAgYXQgdG9wIHJpZ2h0IC0tPgogIDxwb2x5Z29uIHBvaW50cz0iNDAwLDEwMCA0MzUsNjggNDMwLDExMCAzOTIsMTE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPCEtLSBHbG93IHJpbmcgb24gZW5kIG5vZGUgLS0+CiAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMTAwIiByPSIyOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dyYWQpIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuMyIvPgo8L3N2Zz4="/>
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmI5MjNjIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjZjBjMDQwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZkZTY4YSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGYxMjE4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzE2MWIyNCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBCYWNrZ3JvdW5kIHJvdW5kZWQgc3F1YXJlIC0tPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iOTYiIGZpbGw9InVybCgjYmcpIi8+CiAgPCEtLSBTdWJ0bGUgZ3JpZCBkb3RzIC0tPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjQxMiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjQxMiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjM1MiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjM1MiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDwhLS0gVHJhamVjdG9yeSBjdXJ2ZSBwYXRoIC0tPgogIDxwYXRoIGQ9Ik0gMTEwIDQxMCBDIDE2MCAzNzAgMjAwIDMyMCAyNTYgMjU2IEMgMzEwIDE5MiAzNjAgMTUwIDQwMCAxMDAiCiAgICBzdHJva2U9InVybCgjZ3JhZCkiIHN0cm9rZS13aWR0aD0iMjIiIGZpbGw9Im5vbmUiCiAgICBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIG9wYWNpdHk9IjAuOSIvPgogIDwhLS0gUGhhc2Ugbm9kZXMgYWxvbmcgcGF0aCAtLT4KICA8Y2lyY2xlIGN4PSIxMTAiIGN5PSI0MTAiIHI9IjE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGNpcmNsZSBjeD0iMTgzIiBjeT0iMzM0IiByPSIxNCIgZmlsbD0idXJsKCNncmFkKSIgb3BhY2l0eT0iMC44Ii8+CiAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIxNiIgZmlsbD0idXJsKCNncmFkKSIgb3BhY2l0eT0iMC44NSIvPgogIDxjaXJjbGUgY3g9IjMyOCIgY3k9IjE3OCIgcj0iMTQiIGZpbGw9InVybCgjZ3JhZCkiIG9wYWNpdHk9IjAuODgiLz4KICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIxMDAiIHI9IjE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPCEtLSBBcnJvdyB0aXAgYXQgdG9wIHJpZ2h0IC0tPgogIDxwb2x5Z29uIHBvaW50cz0iNDAwLDEwMCA0MzUsNjggNDMwLDExMCAzOTIsMTE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPCEtLSBHbG93IHJpbmcgb24gZW5kIG5vZGUgLS0+CiAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMTAwIiByPSIyOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dyYWQpIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuMyIvPgo8L3N2Zz4="/>
+  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlRyYWplY3Rvcnkg4oCUIFByb2R1Y3QgTGlmZWN5Y2xlIiwKICAic2hvcnRfbmFtZSI6ICJUcmFqZWN0b3J5IiwKICAiZGVzY3JpcHRpb24iOiAiQUktcG93ZXJlZCBwcm9kdWN0IGxpZmVjeWNsZSBtYW5hZ2VtZW50IGZyb20gY29uY2VwdCB0byBwb3N0LXJlbGVhc2UiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBhMGMxMCIsCiAgInRoZW1lX2NvbG9yIjogIiNmMGMwNDAiLAogICJvcmllbnRhdGlvbiI6ICJhbnkiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBMU1USWdOVEV5SWlCM2FXUjBhRDBpTlRFeUlpQm9aV2xuYUhROUlqVXhNaUkrQ2lBZ1BHUmxabk0rQ2lBZ0lDQThiR2x1WldGeVIzSmhaR2xsYm5RZ2FXUTlJbWR5WVdRaUlIZ3hQU0l3SlNJZ2VURTlJakV3TUNVaUlIZ3lQU0l4TURBbElpQjVNajBpTUNVaVBnb2dJQ0FnSUNBOGMzUnZjQ0J2Wm1aelpYUTlJakFsSWlCemRHOXdMV052Ykc5eVBTSWpabUk1TWpOaklpOCtDaUFnSUNBZ0lEeHpkRzl3SUc5bVpuTmxkRDBpTlRBbElpQnpkRzl3TFdOdmJHOXlQU0lqWmpCak1EUXdJaTgrQ2lBZ0lDQWdJRHh6ZEc5d0lHOW1abk5sZEQwaU1UQXdKU0lnYzNSdmNDMWpiMnh2Y2owaUkyWmtaVFk0WVNJdlBnb2dJQ0FnUEM5c2FXNWxZWEpIY21Ga2FXVnVkRDRLSUNBZ0lEeHNhVzVsWVhKSGNtRmthV1Z1ZENCcFpEMGlZbWNpSUhneFBTSXdKU0lnZVRFOUlqQWxJaUI0TWowaU1UQXdKU0lnZVRJOUlqRXdNQ1VpUGdvZ0lDQWdJQ0E4YzNSdmNDQnZabVp6WlhROUlqQWxJaUJ6ZEc5d0xXTnZiRzl5UFNJak1HWXhNakU0SWk4K0NpQWdJQ0FnSUR4emRHOXdJRzltWm5ObGREMGlNVEF3SlNJZ2MzUnZjQzFqYjJ4dmNqMGlJekUyTVdJeU5DSXZQZ29nSUNBZ1BDOXNhVzVsWVhKSGNtRmthV1Z1ZEQ0S0lDQThMMlJsWm5NK0NpQWdQQ0V0TFNCQ1lXTnJaM0p2ZFc1a0lISnZkVzVrWldRZ2MzRjFZWEpsSUMwdFBnb2dJRHh5WldOMElIZHBaSFJvUFNJMU1USWlJR2hsYVdkb2REMGlOVEV5SWlCeWVEMGlPVFlpSUdacGJHdzlJblZ5YkNnalltY3BJaTgrQ2lBZ1BDRXRMU0JUZFdKMGJHVWdaM0pwWkNCa2IzUnpJQzB0UGdvZ0lEeGphWEpqYkdVZ1kzZzlJakV3TUNJZ1kzazlJalF4TWlJZ2NqMGlNeUlnWm1sc2JEMGljbWRpWVNneU5UVXNNalUxTERJMU5Td3dMakEyS1NJdlBnb2dJRHhqYVhKamJHVWdZM2c5SWpFMk1DSWdZM2s5SWpReE1pSWdjajBpTXlJZ1ptbHNiRDBpY21kaVlTZ3lOVFVzTWpVMUxESTFOU3d3TGpBMktTSXZQZ29nSUR4amFYSmpiR1VnWTNnOUlqRXdNQ0lnWTNrOUlqTTFNaUlnY2owaU15SWdabWxzYkQwaWNtZGlZU2d5TlRVc01qVTFMREkxTlN3d0xqQTJLU0l2UGdvZ0lEeGphWEpqYkdVZ1kzZzlJakUyTUNJZ1kzazlJak0xTWlJZ2NqMGlNeUlnWm1sc2JEMGljbWRpWVNneU5UVXNNalUxTERJMU5Td3dMakEyS1NJdlBnb2dJRHdoTFMwZ1ZISmhhbVZqZEc5eWVTQmpkWEoyWlNCd1lYUm9JQzB0UGdvZ0lEeHdZWFJvSUdROUlrMGdNVEV3SURReE1DQkRJREUyTUNBek56QWdNakF3SURNeU1DQXlOVFlnTWpVMklFTWdNekV3SURFNU1pQXpOakFnTVRVd0lEUXdNQ0F4TURBaUNpQWdJQ0J6ZEhKdmEyVTlJblZ5YkNnalozSmhaQ2tpSUhOMGNtOXJaUzEzYVdSMGFEMGlNaklpSUdacGJHdzlJbTV2Ym1VaUNpQWdJQ0J6ZEhKdmEyVXRiR2x1WldOaGNEMGljbTkxYm1RaUlITjBjbTlyWlMxc2FXNWxhbTlwYmowaWNtOTFibVFpSUc5d1lXTnBkSGs5SWpBdU9TSXZQZ29nSUR3aExTMGdVR2hoYzJVZ2JtOWtaWE1nWVd4dmJtY2djR0YwYUNBdExUNEtJQ0E4WTJseVkyeGxJR040UFNJeE1UQWlJR041UFNJME1UQWlJSEk5SWpFNElpQm1hV3hzUFNKMWNtd29JMmR5WVdRcElpQnZjR0ZqYVhSNVBTSXdMamsxSWk4K0NpQWdQR05wY21Oc1pTQmplRDBpTVRneklpQmplVDBpTXpNMElpQnlQU0l4TkNJZ1ptbHNiRDBpZFhKc0tDTm5jbUZrS1NJZ2IzQmhZMmwwZVQwaU1DNDRJaTgrQ2lBZ1BHTnBjbU5zWlNCamVEMGlNalUySWlCamVUMGlNalUySWlCeVBTSXhOaUlnWm1sc2JEMGlkWEpzS0NObmNtRmtLU0lnYjNCaFkybDBlVDBpTUM0NE5TSXZQZ29nSUR4amFYSmpiR1VnWTNnOUlqTXlPQ0lnWTNrOUlqRTNPQ0lnY2owaU1UUWlJR1pwYkd3OUluVnliQ2dqWjNKaFpDa2lJRzl3WVdOcGRIazlJakF1T0RnaUx6NEtJQ0E4WTJseVkyeGxJR040UFNJME1EQWlJR041UFNJeE1EQWlJSEk5SWpFNElpQm1hV3hzUFNKMWNtd29JMmR5WVdRcElpQnZjR0ZqYVhSNVBTSXdMamsxSWk4K0NpQWdQQ0V0TFNCQmNuSnZkeUIwYVhBZ1lYUWdkRzl3SUhKcFoyaDBJQzB0UGdvZ0lEeHdiMng1WjI5dUlIQnZhVzUwY3owaU5EQXdMREV3TUNBME16VXNOamdnTkRNd0xERXhNQ0F6T1RJc01URTRJaUJtYVd4c1BTSjFjbXdvSTJkeVlXUXBJaUJ2Y0dGamFYUjVQU0l3TGprMUlpOCtDaUFnUENFdExTQkhiRzkzSUhKcGJtY2diMjRnWlc1a0lHNXZaR1VnTFMwK0NpQWdQR05wY21Oc1pTQmplRDBpTkRBd0lpQmplVDBpTVRBd0lpQnlQU0l5T0NJZ1ptbHNiRDBpYm05dVpTSWdjM1J5YjJ0bFBTSjFjbXdvSTJkeVlXUXBJaUJ6ZEhKdmEyVXRkMmxrZEdnOUlqTWlJRzl3WVdOcGRIazlJakF1TXlJdlBnbzhMM04yWno0PSIsCiAgICAgICJzaXplcyI6ICJhbnkiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ=="/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <!-- SheetJS for Excel export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <!-- jsPDF for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0c10;--bg2:#0f1218;--bg3:#161b24;--bg4:#1c2230;--bg5:#222a38;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --gold:#f0c040;--text:#e8ecf4;--text2:#8b96aa;--text3:#5a6270;
+  --red:#f87171;--green:#34d399;--r:12px;--r2:8px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;}
+#root{height:100%;}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px}
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg:#0a0c10; --bg2:#0f1218; --bg3:#161b24; --bg4:#1c2230;
-      --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.12);
-      --gold:#f0c040; --text:#e8ecf4; --text2:#8b96aa; --text3:#5a6270;
-      --radius:12px; --radius2:8px;
-    }
-    html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;}
-    #root{height:100%;}
-    ::-webkit-scrollbar{width:4px;height:4px;}
-    ::-webkit-scrollbar-track{background:transparent;}
-    ::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px;}
+/* ── MODALS ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(6px)}
+.modal-box{background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:28px;width:460px;max-width:94vw;box-shadow:0 24px 64px rgba(0,0,0,0.55)}
+.modal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.modal-label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;display:block}
+.modal-input{width:100%;background:var(--bg4);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 12px;outline:none;margin-bottom:12px}
+.modal-input:focus{border-color:var(--gold)}
+.modal-select{width:100%;background:var(--bg4);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 12px;outline:none;margin-bottom:12px;cursor:pointer}
+.modal-row{display:flex;gap:10px}
+.modal-row .modal-input,.modal-row .modal-select{flex:1}
+.btn-gold{background:linear-gradient(135deg,#f0c040,#fb923c);border:none;border-radius:8px;color:#0a0c10;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:10px 20px;cursor:pointer;transition:opacity 0.15s;white-space:nowrap}
+.btn-gold:hover{opacity:0.88}
+.btn-ghost{background:transparent;border:1px solid var(--border2);border-radius:8px;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 18px;cursor:pointer;transition:all 0.15s}
+.btn-ghost:hover{background:var(--bg4)}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
 
-    /* INSTALL BANNER */
-    .install-banner{
-      position:fixed;bottom:0;left:0;right:0;z-index:200;
-      background:linear-gradient(90deg,#0f1218,#1c2230);
-      border-top:1px solid rgba(240,192,64,0.25);
-      padding:14px 24px;display:flex;align-items:center;gap:16px;
-      box-shadow:0 -8px 32px rgba(0,0,0,0.5);
-    }
-    .install-banner-icon{width:40px;height:40px;border-radius:10px;flex-shrink:0;}
-    .install-banner-text{flex:1;}
-    .install-banner-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:#e8ecf4;}
-    .install-banner-sub{font-size:12px;color:#8b96aa;margin-top:2px;}
-    .install-banner-btn{
-      background:linear-gradient(135deg,#f0c040,#fb923c);border:none;border-radius:8px;
-      color:#0a0c10;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;
-      padding:9px 20px;cursor:pointer;white-space:nowrap;transition:opacity 0.15s;
-    }
-    .install-banner-btn:hover{opacity:0.88;}
-    .install-banner-close{
-      background:none;border:none;color:#5a6270;font-size:18px;cursor:pointer;
-      padding:4px 6px;line-height:1;
-    }
-    .install-banner-close:hover{color:#8b96aa;}
+/* ── EXPORT MODAL ── */
+.export-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.export-card{padding:20px 16px;border-radius:var(--r2);border:1px solid var(--border2);background:var(--bg4);cursor:pointer;transition:all 0.15s;text-align:center}
+.export-card:hover{border-color:var(--gold);background:var(--bg5)}
+.export-card.selected{border-color:var(--gold);background:rgba(240,192,64,0.07)}
+.export-card-icon{font-size:28px;margin-bottom:8px}
+.export-card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px}
+.export-card-sub{font-size:11px;color:var(--text3)}
+.export-scope{margin-bottom:16px}
+.export-scope label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);margin-bottom:8px;cursor:pointer}
+.export-scope input[type=radio]{accent-color:var(--gold)}
 
-    /* API KEY MODAL */
-    .api-modal-overlay{
-      position:fixed;inset:0;background:rgba(0,0,0,0.88);
-      display:flex;align-items:center;justify-content:center;z-index:9999;
-      backdrop-filter:blur(8px);
-    }
-    .api-modal{
-      background:var(--bg3);border:1px solid rgba(240,192,64,0.3);
-      border-radius:16px;padding:32px;width:440px;max-width:92vw;
-      box-shadow:0 24px 64px rgba(0,0,0,0.6);
-    }
-    .api-modal-logo{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
-    .api-modal-icon{width:44px;height:44px;border-radius:10px;overflow:hidden;flex-shrink:0;}
-    .api-modal-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;}
-    .api-modal-title span{color:#f0c040;}
-    .api-modal-title small{display:block;font-size:12px;color:#5a6270;font-weight:400;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
-    .api-modal p{color:#8b96aa;font-size:13px;line-height:1.65;margin-bottom:20px;}
-    .api-modal label{display:block;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#5a6270;margin-bottom:7px;}
-    .api-modal input{
-      width:100%;background:var(--bg4);border:1px solid var(--border2);
-      border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;
-      font-size:13px;padding:11px 14px;outline:none;margin-bottom:16px;letter-spacing:0.5px;
-    }
-    .api-modal input:focus{border-color:#f0c040;}
-    .api-modal-btn{
-      width:100%;padding:13px;border:none;border-radius:8px;
-      background:linear-gradient(135deg,#f0c040,#fb923c);
-      color:#0a0c10;font-family:'Syne',sans-serif;font-weight:700;
-      font-size:14px;cursor:pointer;letter-spacing:0.3px;transition:opacity 0.15s;
-    }
-    .api-modal-btn:hover{opacity:0.9;}
-    .api-modal-btn:disabled{opacity:0.4;cursor:not-allowed;}
-    .api-modal-note{margin-top:14px;font-size:11px;color:#5a6270;text-align:center;line-height:1.55;}
-    .api-modal-note a{color:#f0c040;text-decoration:none;}
-    .api-modal-note a:hover{text-decoration:underline;}
+/* ── API KEY MODAL ── */
+.api-modal-logo{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.api-modal-icon{width:44px;height:44px;border-radius:10px;overflow:hidden;flex-shrink:0}
+.api-modal-title{font-family:'Syne',sans-serif;font-size:21px;font-weight:800}
+.api-modal-title span{color:var(--gold)}
+.api-modal-title small{display:block;font-size:11px;color:var(--text3);font-weight:400;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
 
-    /* APP */
-    .plc-app{min-height:100vh;display:flex;flex-direction:column;}
-    .plc-header{
-      padding:14px 28px;border-bottom:1px solid var(--border);
-      display:flex;align-items:center;justify-content:space-between;
-      background:linear-gradient(90deg,#0a0c10,#0f121c);
-      position:sticky;top:0;z-index:100;
-    }
-    .plc-logo{display:flex;align-items:center;gap:10px;}
-    .plc-logo-icon{width:36px;height:36px;border-radius:9px;overflow:hidden;flex-shrink:0;}
-    .plc-logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.5px;}
-    .plc-logo-text span{color:#f0c040;}
-    .plc-logo-tagline{font-size:10px;color:#5a6270;letter-spacing:1px;text-transform:uppercase;margin-top:1px;}
-    .plc-header-right{display:flex;align-items:center;gap:10px;}
-    .plc-product-name{display:flex;align-items:center;gap:8px;font-size:12px;color:#8b96aa;}
-    .plc-product-name input{
-      background:var(--bg3);border:1px solid var(--border2);border-radius:6px;
-      color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;
-      padding:5px 10px;width:190px;outline:none;
-    }
-    .plc-product-name input:focus{border-color:#f0c040;}
-    .plc-api-btn{
-      background:rgba(240,192,64,0.1);border:1px solid rgba(240,192,64,0.25);
-      border-radius:6px;color:#f0c040;font-size:11px;font-weight:600;
-      padding:5px 10px;cursor:pointer;letter-spacing:0.3px;transition:all 0.15s;
-      font-family:'DM Sans',sans-serif;
-    }
-    .plc-api-btn:hover{background:rgba(240,192,64,0.18);}
-    .plc-timeline{padding:16px 28px 0;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto;}
-    .plc-timeline-track{display:flex;align-items:stretch;min-width:max-content;}
-    .plc-phase-tab{
-      display:flex;flex-direction:column;align-items:center;
-      padding:10px 20px 12px;cursor:pointer;border-bottom:3px solid transparent;
-      transition:all 0.2s;position:relative;gap:4px;white-space:nowrap;min-width:90px;
-    }
-    .plc-phase-tab:hover{background:rgba(255,255,255,0.03);}
-    .plc-phase-icon{font-size:17px;}
-    .plc-phase-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;}
-    .plc-phase-sub{font-size:10px;color:#5a6270;}
-    .plc-connector{width:20px;align-self:center;height:1px;background:var(--border);flex-shrink:0;margin-bottom:14px;}
-    .plc-stakeholders{
-      padding:9px 28px;background:var(--bg2);border-bottom:1px solid var(--border);
-      display:flex;gap:6px;flex-wrap:wrap;
-    }
-    .plc-sh-btn{
-      padding:5px 13px;border-radius:20px;border:1px solid var(--border2);
-      background:transparent;color:#8b96aa;font-size:12px;
-      font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;
-      display:flex;align-items:center;gap:5px;
-    }
-    .plc-sh-btn:hover{background:var(--bg4);}
-    .plc-main{flex:1;display:grid;grid-template-columns:1fr 340px;}
-    .plc-content{padding:22px 28px;border-right:1px solid var(--border);overflow-y:auto;max-height:calc(100vh - 220px);}
-    .plc-sidebar{padding:18px 16px;overflow-y:auto;background:var(--bg2);max-height:calc(100vh - 220px);}
-    .plc-phase-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;}
-    .plc-phase-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;}
-    .plc-phase-desc{color:#8b96aa;font-size:13px;margin-top:3px;}
-    .plc-section-title{
-      font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;
-      text-transform:uppercase;color:#5a6270;margin-bottom:10px;
-      display:flex;align-items:center;gap:8px;
-    }
-    .plc-section-title::after{content:'';flex:1;height:1px;background:var(--border);}
-    .plc-tasks{display:flex;flex-direction:column;gap:6px;margin-bottom:28px;}
-    .plc-task{
-      display:flex;align-items:center;gap:12px;padding:11px 13px;
-      border-radius:var(--radius2);background:var(--bg3);border:1px solid var(--border);
-      transition:all 0.15s;cursor:pointer;
-    }
-    .plc-task:hover{border-color:var(--border2);background:var(--bg4);}
-    .plc-task-check{
-      width:18px;height:18px;border-radius:5px;border:2px solid var(--border2);
-      display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;
-    }
-    .plc-task-title{flex:1;font-size:13px;}
-    .plc-task-meta{display:flex;align-items:center;gap:6px;}
-    .plc-task-owner{font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,0.06);font-weight:500;}
-    .plc-task-priority{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
-    .plc-priority-high{background:rgba(248,113,113,0.15);color:#f87171;}
-    .plc-priority-medium{background:rgba(251,146,60,0.15);color:#fb923c;}
-    .plc-priority-low{background:rgba(100,116,139,0.15);color:#94a3b8;}
-    .plc-deliverables{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px;}
-    .plc-deliverable{
-      padding:5px 11px;border-radius:6px;font-size:12px;
-      background:var(--bg3);border:1px solid var(--border2);
-      color:#8b96aa;display:flex;align-items:center;gap:6px;
-    }
-    .plc-sidebar-section{margin-bottom:20px;}
-    .plc-progress-bar-wrap{margin-bottom:8px;}
-    .plc-progress-bar-label{display:flex;justify-content:space-between;font-size:11px;color:#8b96aa;margin-bottom:4px;}
-    .plc-progress-bar-track{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;}
-    .plc-progress-bar-fill{height:100%;border-radius:2px;transition:width 0.4s;}
-    .plc-metrics{display:flex;flex-direction:column;gap:7px;}
-    .plc-metric{
-      padding:9px 12px;border-radius:var(--radius2);background:var(--bg3);
-      border:1px solid var(--border);display:flex;align-items:center;gap:10px;
-    }
-    .plc-metric-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-    .plc-metric-label{font-size:12px;color:#8b96aa;}
-    .plc-ai-panel{border:1px solid rgba(240,192,64,0.2);border-radius:var(--radius);background:linear-gradient(135deg,rgba(240,192,64,0.03),rgba(251,146,60,0.03));overflow:hidden;}
-    .plc-ai-header{
-      padding:10px 13px;background:rgba(240,192,64,0.07);border-bottom:1px solid rgba(240,192,64,0.12);
-      display:flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;
-      font-size:11px;font-weight:700;color:#f0c040;letter-spacing:0.5px;
-    }
-    .plc-ai-pulse{width:7px;height:7px;border-radius:50%;background:#f0c040;animation:pulse 2s infinite;}
-    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
-    .plc-ai-messages{padding:11px 13px;max-height:190px;overflow-y:auto;display:flex;flex-direction:column;gap:9px;}
-    .plc-ai-msg{font-size:12.5px;line-height:1.6;white-space:pre-wrap;}
-    .plc-ai-input-row{padding:9px 13px;border-top:1px solid rgba(240,192,64,0.1);display:flex;gap:8px;}
-    .plc-ai-input{
-      flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;
-      color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;
-      padding:7px 10px;outline:none;resize:none;
-    }
-    .plc-ai-input:focus{border-color:rgba(240,192,64,0.4);}
-    .plc-ai-send{
-      background:linear-gradient(135deg,#f0c040,#fb923c);border:none;border-radius:6px;
-      width:32px;height:32px;cursor:pointer;font-size:15px;align-self:flex-end;transition:opacity 0.15s;
-    }
-    .plc-ai-send:hover{opacity:0.85;}
-    .plc-ai-send:disabled{opacity:0.35;cursor:not-allowed;}
-    .plc-note-area{
-      width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);
-      color:var(--text);font-family:'DM Sans',sans-serif;font-size:12.5px;padding:10px 12px;
-      outline:none;resize:vertical;min-height:70px;line-height:1.6;
-    }
-    .plc-note-area:focus{border-color:var(--border2);}
-    .plc-note-area::placeholder{color:#5a6270;}
-    .plc-overall{
-      padding:13px 28px;background:var(--bg2);border-top:1px solid var(--border);
-      display:flex;align-items:center;gap:18px;overflow-x:auto;
-    }
-    .plc-overall-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5a6270;white-space:nowrap;}
-    .plc-phase-dot{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;}
-    .plc-phase-dot-circle{width:10px;height:10px;border-radius:50%;border:2px solid;transition:all 0.15s;}
-    .plc-phase-dot-label{font-size:9px;color:#5a6270;white-space:nowrap;}
-    .plc-overall-bar{flex:1;height:3px;background:var(--bg4);border-radius:2px;min-width:60px;}
-    .plc-overall-pct{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#f0c040;white-space:nowrap;}
-    @media(max-width:768px){
-      .plc-main{grid-template-columns:1fr;}
-      .plc-sidebar{display:none;}
-      .plc-header{padding:12px 16px;}
-      .plc-content{padding:16px;max-height:none;}
-      .plc-product-name span{display:none;}
-      .plc-product-name input{width:130px;}
-      .install-banner{padding:12px 16px;}
-    }
-  </style>
+/* ── INSTALL BANNER ── */
+.install-banner{position:fixed;bottom:0;left:0;right:0;z-index:200;background:linear-gradient(90deg,var(--bg2),var(--bg4));border-top:1px solid rgba(240,192,64,0.25);padding:13px 24px;display:flex;align-items:center;gap:14px;box-shadow:0 -8px 32px rgba(0,0,0,0.45)}
+.install-banner img{width:38px;height:38px;border-radius:9px;flex-shrink:0}
+.install-banner-text{flex:1}
+.install-banner-title{font-family:'Syne',sans-serif;font-weight:700;font-size:13px}
+.install-banner-sub{font-size:11px;color:var(--text2);margin-top:1px}
+.install-banner-close{background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:4px 6px;line-height:1}
+
+/* ── APP SHELL ── */
+.plc-app{min-height:100vh;display:flex;flex-direction:column}
+.plc-header{padding:13px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,#0a0c10,#0f121c);position:sticky;top:0;z-index:100}
+.plc-logo{display:flex;align-items:center;gap:10px}
+.plc-logo img{width:34px;height:34px;border-radius:9px}
+.plc-logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.4px}
+.plc-logo-text span{color:var(--gold)}
+.plc-logo-tag{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-top:1px}
+.plc-header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.plc-product-input{background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:5px 10px;width:170px;outline:none}
+.plc-product-input:focus{border-color:var(--gold)}
+.hdr-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:11px;font-weight:600;padding:5px 11px;cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.hdr-btn:hover{background:var(--bg4);color:var(--text)}
+.hdr-btn.gold{border-color:rgba(240,192,64,0.35);color:var(--gold);background:rgba(240,192,64,0.08)}
+.hdr-btn.gold:hover{background:rgba(240,192,64,0.16)}
+
+/* ── TIMELINE ── */
+.plc-timeline{padding:14px 24px 0;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto}
+.plc-timeline-track{display:flex;align-items:stretch;min-width:max-content}
+.plc-phase-tab{display:flex;flex-direction:column;align-items:center;padding:9px 18px 11px;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;position:relative;gap:3px;white-space:nowrap;min-width:88px}
+.plc-phase-tab:hover{background:rgba(255,255,255,0.03)}
+.plc-phase-icon{font-size:16px}
+.plc-phase-label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase}
+.plc-phase-sub{font-size:9px;color:var(--text3)}
+.plc-connector{width:16px;align-self:center;height:1px;background:var(--border);flex-shrink:0;margin-bottom:12px}
+
+/* ── STAKEHOLDERS ── */
+.plc-stakeholders{padding:8px 24px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;gap:5px;flex-wrap:wrap}
+.sh-btn{padding:4px 12px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:4px}
+.sh-btn:hover{background:var(--bg4)}
+
+/* ── MAIN LAYOUT ── */
+.plc-main{flex:1;display:grid;grid-template-columns:1fr 330px}
+.plc-content{padding:20px 24px;border-right:1px solid var(--border);overflow-y:auto;max-height:calc(100vh - 210px)}
+.plc-sidebar{padding:16px 14px;overflow-y:auto;background:var(--bg2);max-height:calc(100vh - 210px)}
+
+/* ── PHASE HEADER ── */
+.plc-phase-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+.plc-phase-title{font-family:'Syne',sans-serif;font-size:21px;font-weight:800;letter-spacing:-0.4px}
+.plc-phase-desc{color:var(--text2);font-size:12px;margin-top:3px}
+.section-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── TASKS ── */
+.tasks-list{display:flex;flex-direction:column;gap:5px;margin-bottom:24px}
+.task-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r2);background:var(--bg3);border:1px solid var(--border);transition:all 0.15s;cursor:pointer}
+.task-item:hover{border-color:var(--border2);background:var(--bg4)}
+.task-check{width:17px;height:17px;border-radius:5px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;transition:all 0.15s}
+.task-title{flex:1;font-size:13px;line-height:1.4}
+.task-meta{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.task-owner{font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.06);font-weight:500}
+.task-pri{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px}
+.pri-high{background:rgba(248,113,113,0.14);color:#f87171}
+.pri-medium{background:rgba(251,146,60,0.14);color:#fb923c}
+.pri-low{background:rgba(100,116,139,0.14);color:#94a3b8}
+.task-del-btn{width:22px;height:22px;border-radius:4px;background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;opacity:0}
+.task-item:hover .task-del-btn{opacity:1}
+.task-del-btn:hover{background:rgba(248,113,113,0.15);color:#f87171}
+
+/* ADD ROW */
+.add-row{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--r2);border:1px dashed var(--border2);background:transparent;transition:all 0.15s;margin-bottom:4px}
+.add-row:hover{background:var(--bg3);border-color:rgba(240,192,64,0.3)}
+.add-row input{flex:1;background:transparent;border:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;min-width:0}
+.add-row input::placeholder{color:var(--text3)}
+.add-row select{background:var(--bg4);border:1px solid var(--border2);border-radius:5px;color:var(--text2);font-size:11px;padding:3px 6px;outline:none;cursor:pointer}
+.add-row-btn{width:26px;height:26px;border-radius:5px;background:linear-gradient(135deg,#f0c040,#fb923c);border:none;color:#0a0c10;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;transition:opacity 0.15s}
+.add-row-btn:hover{opacity:0.85}
+
+/* ── DELIVERABLES ── */
+.deliverables-list{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+.deliverable-chip{padding:5px 10px;border-radius:6px;font-size:12px;background:var(--bg3);border:1px solid var(--border2);color:var(--text2);display:flex;align-items:center;gap:6px}
+.chip-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.chip-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;line-height:1;padding:0 0 0 2px;transition:color 0.15s}
+.chip-del:hover{color:#f87171}
+.add-chip-row{display:flex;gap:7px;align-items:center;margin-bottom:24px}
+.add-chip-row input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:6px 10px;outline:none}
+.add-chip-row input:focus{border-color:rgba(240,192,64,0.4)}
+
+/* ── NOTE ── */
+.note-area{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:12.5px;padding:9px 12px;outline:none;resize:vertical;min-height:66px;line-height:1.6}
+.note-area:focus{border-color:var(--border2)}
+.note-area::placeholder{color:var(--text3)}
+
+/* ── SIDEBAR ── */
+.sidebar-section{margin-bottom:18px}
+.progress-bar-wrap{margin-bottom:7px}
+.progress-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:3px}
+.progress-bar-track{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:2px;transition:width 0.4s}
+.metrics-list{display:flex;flex-direction:column;gap:6px}
+.metric-item{padding:8px 11px;border-radius:var(--r2);background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;gap:9px}
+.metric-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.metric-label{font-size:11px;color:var(--text2)}
+
+/* ── AI PANEL ── */
+.ai-panel{border:1px solid rgba(240,192,64,0.18);border-radius:var(--r);background:linear-gradient(135deg,rgba(240,192,64,0.025),rgba(251,146,60,0.025));overflow:hidden}
+.ai-header{padding:10px 12px;background:rgba(240,192,64,0.06);border-bottom:1px solid rgba(240,192,64,0.1);display:flex;align-items:center;gap:7px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:0.4px}
+.ai-pulse{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.ai-messages{padding:10px 12px;max-height:180px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+.ai-msg{font-size:12px;line-height:1.6;white-space:pre-wrap}
+.ai-input-row{padding:8px 12px;border-top:1px solid rgba(240,192,64,0.08);display:flex;gap:7px}
+.ai-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:6px 9px;outline:none;resize:none}
+.ai-input:focus{border-color:rgba(240,192,64,0.35)}
+.ai-send{background:linear-gradient(135deg,#f0c040,#fb923c);border:none;border-radius:5px;width:30px;height:30px;cursor:pointer;font-size:14px;align-self:flex-end;transition:opacity 0.15s}
+.ai-send:hover{opacity:0.85}
+.ai-send:disabled{opacity:0.3;cursor:not-allowed}
+
+/* ── FOOTER ── */
+.plc-footer{padding:12px 24px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;gap:16px;overflow-x:auto;flex-shrink:0}
+.footer-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);white-space:nowrap}
+.phase-dot{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.phase-dot-circle{width:9px;height:9px;border-radius:50%;border:2px solid;transition:all 0.15s}
+.phase-dot-label{font-size:9px;color:var(--text3);white-space:nowrap}
+.overall-bar{flex:1;height:3px;background:var(--bg4);border-radius:2px;min-width:50px}
+.overall-pct{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--gold);white-space:nowrap}
+
+@media(max-width:768px){
+  .plc-main{grid-template-columns:1fr}
+  .plc-sidebar{display:none}
+  .plc-header{padding:11px 14px}
+  .plc-content{padding:14px;max-height:none}
+  .plc-product-input{width:120px}
+}
+</style>
 </head>
 <body>
 <div id="root"></div>
-
 <script type="text/babel">
-const { useState, useRef, useEffect } = React;
+const { useState, useRef, useEffect, useCallback } = React;
 
 const SVG_ICON = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmI5MjNjIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjZjBjMDQwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZkZTY4YSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGYxMjE4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzE2MWIyNCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBCYWNrZ3JvdW5kIHJvdW5kZWQgc3F1YXJlIC0tPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iOTYiIGZpbGw9InVybCgjYmcpIi8+CiAgPCEtLSBTdWJ0bGUgZ3JpZCBkb3RzIC0tPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjQxMiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjQxMiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjM1MiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDxjaXJjbGUgY3g9IjE2MCIgY3k9IjM1MiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA2KSIvPgogIDwhLS0gVHJhamVjdG9yeSBjdXJ2ZSBwYXRoIC0tPgogIDxwYXRoIGQ9Ik0gMTEwIDQxMCBDIDE2MCAzNzAgMjAwIDMyMCAyNTYgMjU2IEMgMzEwIDE5MiAzNjAgMTUwIDQwMCAxMDAiCiAgICBzdHJva2U9InVybCgjZ3JhZCkiIHN0cm9rZS13aWR0aD0iMjIiIGZpbGw9Im5vbmUiCiAgICBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIG9wYWNpdHk9IjAuOSIvPgogIDwhLS0gUGhhc2Ugbm9kZXMgYWxvbmcgcGF0aCAtLT4KICA8Y2lyY2xlIGN4PSIxMTAiIGN5PSI0MTAiIHI9IjE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPGNpcmNsZSBjeD0iMTgzIiBjeT0iMzM0IiByPSIxNCIgZmlsbD0idXJsKCNncmFkKSIgb3BhY2l0eT0iMC44Ii8+CiAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIxNiIgZmlsbD0idXJsKCNncmFkKSIgb3BhY2l0eT0iMC44NSIvPgogIDxjaXJjbGUgY3g9IjMyOCIgY3k9IjE3OCIgcj0iMTQiIGZpbGw9InVybCgjZ3JhZCkiIG9wYWNpdHk9IjAuODgiLz4KICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIxMDAiIHI9IjE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPCEtLSBBcnJvdyB0aXAgYXQgdG9wIHJpZ2h0IC0tPgogIDxwb2x5Z29uIHBvaW50cz0iNDAwLDEwMCA0MzUsNjggNDMwLDExMCAzOTIsMTE4IiBmaWxsPSJ1cmwoI2dyYWQpIiBvcGFjaXR5PSIwLjk1Ii8+CiAgPCEtLSBHbG93IHJpbmcgb24gZW5kIG5vZGUgLS0+CiAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMTAwIiByPSIyOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dyYWQpIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuMyIvPgo8L3N2Zz4=";
 
+// ── STATIC DATA ──────────────────────────────────────────────────────────────
 const STAKEHOLDERS = [
-  { id:"all",       label:"All",            icon:"◈", color:"#f0c040" },
-  { id:"investor",  label:"Investors",      icon:"💰", color:"#34d399" },
-  { id:"pm",        label:"Product",        icon:"🧭", color:"#60a5fa" },
-  { id:"rnd",       label:"R&D / Engg",     icon:"⚙️", color:"#a78bfa" },
-  { id:"design",    label:"Design / UX",    icon:"✦",  color:"#f472b6" },
-  { id:"marketing", label:"Marketing",      icon:"📣", color:"#fb923c" },
-  { id:"cs",        label:"Cust. Success",  icon:"🤝", color:"#2dd4bf" },
+  {id:"all",label:"All",icon:"◈",color:"#f0c040"},
+  {id:"investor",label:"Investors",icon:"💰",color:"#34d399"},
+  {id:"pm",label:"Product",icon:"🧭",color:"#60a5fa"},
+  {id:"rnd",label:"R&D / Engg",icon:"⚙️",color:"#a78bfa"},
+  {id:"design",label:"Design / UX",icon:"✦",color:"#f472b6"},
+  {id:"marketing",label:"Marketing",icon:"📣",color:"#fb923c"},
+  {id:"cs",label:"Cust. Success",icon:"🤝",color:"#2dd4bf"},
 ];
-
-const PHASES_DATA = [
-  {
-    id:"concept",label:"Concept",sub:"Idea & Vision",icon:"💡",color:"#f0c040",
-    stakeholders:["pm","investor","rnd","design"],
-    deliverables:["Concept Note","Problem Statement","Vision Doc","Stakeholder Alignment","Budget Estimate"],
-    tasks:[
-      {id:"c1",title:"Define the core problem statement",owner:"pm",priority:"high",done:false},
-      {id:"c2",title:"Draft the product vision & mission",owner:"pm",priority:"high",done:false},
-      {id:"c3",title:"Create initial concept note document",owner:"pm",priority:"high",done:false},
-      {id:"c4",title:"Identify target audience segments",owner:"design",priority:"medium",done:false},
-      {id:"c5",title:"Outline key value propositions",owner:"investor",priority:"high",done:false},
-      {id:"c6",title:"Estimate initial resource requirements",owner:"investor",priority:"medium",done:false},
-      {id:"c7",title:"Get stakeholder alignment & sign-off",owner:"pm",priority:"high",done:false},
-    ],
-    metrics:["Stakeholder sign-offs","Concept clarity score","Budget baseline"],
-    aiPrompt:"You are a Product Strategy expert. Help the user refine their concept note, sharpen their problem statement, and articulate a compelling product vision. Be concise and actionable.",
-  },
-  {
-    id:"research",label:"Research",sub:"Market & Users",icon:"🔍",color:"#60a5fa",
-    stakeholders:["pm","rnd","design","marketing","investor"],
-    deliverables:["Market Analysis","Competitor Landscape","User Research Report","Persona Definitions","SWOT Analysis"],
-    tasks:[
-      {id:"r1",title:"Conduct competitive landscape analysis",owner:"marketing",priority:"high",done:false},
-      {id:"r2",title:"Run user interviews & surveys",owner:"design",priority:"high",done:false},
-      {id:"r3",title:"Define user personas",owner:"design",priority:"high",done:false},
-      {id:"r4",title:"Analyse market size (TAM/SAM/SOM)",owner:"investor",priority:"high",done:false},
-      {id:"r5",title:"Identify regulatory & compliance factors",owner:"pm",priority:"medium",done:false},
-      {id:"r6",title:"Complete SWOT analysis",owner:"pm",priority:"medium",done:false},
-      {id:"r7",title:"Synthesise research into insights report",owner:"rnd",priority:"high",done:false},
-    ],
-    metrics:["Users interviewed","Competitors mapped","Market size validated"],
-    aiPrompt:"You are a Market Research specialist. Help the user analyse markets, identify opportunities, synthesise user research, and create sharp competitive insights. Be data-driven and concise.",
-  },
-  {
-    id:"design",label:"Design",sub:"UX & Architecture",icon:"✦",color:"#f472b6",
-    stakeholders:["pm","rnd","design"],
-    deliverables:["PRD","User Journey Maps","Wireframes","System Architecture","API Specs"],
-    tasks:[
-      {id:"d1",title:"Write detailed Product Requirements Doc (PRD)",owner:"pm",priority:"high",done:false},
-      {id:"d2",title:"Create user journey & flow maps",owner:"design",priority:"high",done:false},
-      {id:"d3",title:"Design lo-fi wireframes",owner:"design",priority:"high",done:false},
-      {id:"d4",title:"Design hi-fi prototypes & design system",owner:"design",priority:"high",done:false},
-      {id:"d5",title:"Define system & data architecture",owner:"rnd",priority:"high",done:false},
-      {id:"d6",title:"Write API contracts & integration specs",owner:"rnd",priority:"medium",done:false},
-      {id:"d7",title:"Conduct design review & usability test",owner:"design",priority:"medium",done:false},
-      {id:"d8",title:"Finalise tech stack decisions",owner:"rnd",priority:"high",done:false},
-    ],
-    metrics:["PRD approval","Prototype usability score","Architecture sign-off"],
-    aiPrompt:"You are a Senior Product Designer and Solution Architect. Help the user create clear PRDs, thoughtful UX flows, and robust architecture decisions. Be practical and design-forward.",
-  },
-  {
-    id:"development",label:"Build",sub:"Engineering & Dev",icon:"⚙️",color:"#a78bfa",
-    stakeholders:["rnd","pm","design"],
-    deliverables:["Sprint Plan","MVP Build","Code Repository","CI/CD Pipeline","Technical Docs"],
-    tasks:[
-      {id:"dev1",title:"Set up dev environment & repositories",owner:"rnd",priority:"high",done:false},
-      {id:"dev2",title:"Break PRD into epics & sprint stories",owner:"pm",priority:"high",done:false},
-      {id:"dev3",title:"Build core MVP features (Sprint 1)",owner:"rnd",priority:"high",done:false},
-      {id:"dev4",title:"Implement UI components from design",owner:"rnd",priority:"high",done:false},
-      {id:"dev5",title:"Set up CI/CD & deployment pipeline",owner:"rnd",priority:"medium",done:false},
-      {id:"dev6",title:"Integrate third-party APIs & services",owner:"rnd",priority:"medium",done:false},
-      {id:"dev7",title:"Code reviews & technical documentation",owner:"rnd",priority:"medium",done:false},
-      {id:"dev8",title:"Internal demo & PM feedback loop",owner:"pm",priority:"high",done:false},
-    ],
-    metrics:["Sprint velocity","Bug density","Feature completion %"],
-    aiPrompt:"You are a Senior Engineering Lead. Help the user plan sprints, break down features into tasks, resolve technical blockers, and maintain engineering quality. Be practical and precise.",
-  },
-  {
-    id:"testing",label:"QA & Test",sub:"Quality & Validation",icon:"🧪",color:"#34d399",
-    stakeholders:["rnd","pm","design","cs"],
-    deliverables:["QA Test Plan","Bug Reports","Performance Report","Security Audit","UAT Sign-off"],
-    tasks:[
-      {id:"t1",title:"Write comprehensive QA test cases",owner:"rnd",priority:"high",done:false},
-      {id:"t2",title:"Conduct functional & regression testing",owner:"rnd",priority:"high",done:false},
-      {id:"t3",title:"Run performance & load testing",owner:"rnd",priority:"high",done:false},
-      {id:"t4",title:"Security audit & vulnerability scan",owner:"rnd",priority:"high",done:false},
-      {id:"t5",title:"User Acceptance Testing (UAT) with beta users",owner:"cs",priority:"high",done:false},
-      {id:"t6",title:"Accessibility testing (WCAG compliance)",owner:"design",priority:"medium",done:false},
-      {id:"t7",title:"Fix critical & high-priority bugs",owner:"rnd",priority:"high",done:false},
-      {id:"t8",title:"Final sign-off from PM & stakeholders",owner:"pm",priority:"high",done:false},
-    ],
-    metrics:["Test coverage %","Critical bugs resolved","UAT pass rate"],
-    aiPrompt:"You are a QA Lead and Product Quality expert. Help the user plan test strategies, prioritise bugs, interpret test results, and ensure launch readiness. Be methodical and thorough.",
-  },
-  {
-    id:"gtm",label:"Go-to-Market",sub:"Launch Strategy",icon:"📣",color:"#fb923c",
-    stakeholders:["marketing","pm","investor","cs"],
-    deliverables:["GTM Strategy","Pricing Model","Launch Plan","Sales Playbook","Marketing Assets"],
-    tasks:[
-      {id:"g1",title:"Finalise pricing & packaging model",owner:"investor",priority:"high",done:false},
-      {id:"g2",title:"Define GTM strategy & launch channels",owner:"marketing",priority:"high",done:false},
-      {id:"g3",title:"Create launch messaging & positioning",owner:"marketing",priority:"high",done:false},
-      {id:"g4",title:"Build website landing page & SEO",owner:"marketing",priority:"high",done:false},
-      {id:"g5",title:"Develop sales enablement materials",owner:"marketing",priority:"medium",done:false},
-      {id:"g6",title:"Set up customer onboarding flows",owner:"cs",priority:"high",done:false},
-      {id:"g7",title:"Train support & success teams",owner:"cs",priority:"medium",done:false},
-      {id:"g8",title:"Define launch KPIs & success metrics",owner:"pm",priority:"high",done:false},
-      {id:"g9",title:"Investor & press briefing preparation",owner:"investor",priority:"medium",done:false},
-    ],
-    metrics:["Channels activated","Marketing assets ready","Pipeline generated"],
-    aiPrompt:"You are a Go-to-Market Strategist. Help the user craft compelling GTM strategies, sharpen positioning, define pricing, and plan a high-impact product launch. Be strategic and bold.",
-  },
-  {
-    id:"launch",label:"Launch",sub:"Release Day",icon:"🚀",color:"#f0c040",
-    stakeholders:["pm","rnd","marketing","investor","cs"],
-    deliverables:["Product Live","Press Release","Announcement Campaign","Launch Dashboard","Incident Response Plan"],
-    tasks:[
-      {id:"l1",title:"Final production deployment & smoke test",owner:"rnd",priority:"high",done:false},
-      {id:"l2",title:"Activate marketing campaigns across channels",owner:"marketing",priority:"high",done:false},
-      {id:"l3",title:"Publish press release & announcements",owner:"marketing",priority:"high",done:false},
-      {id:"l4",title:"Monitor real-time metrics & alerts",owner:"pm",priority:"high",done:false},
-      {id:"l5",title:"Activate customer support & success teams",owner:"cs",priority:"high",done:false},
-      {id:"l6",title:"Executive & investor communications",owner:"investor",priority:"medium",done:false},
-      {id:"l7",title:"Launch retrospective (immediate 24h)",owner:"pm",priority:"medium",done:false},
-    ],
-    metrics:["Uptime %","Sign-ups Day 1","Revenue Day 1"],
-    aiPrompt:"You are a Launch Director. Help coordinate all launch activities, create compelling announcements, and ensure a smooth, high-energy product launch. Be action-oriented and inspiring.",
-  },
-  {
-    id:"postrelease",label:"Post-Release",sub:"Growth & Iteration",icon:"📈",color:"#2dd4bf",
-    stakeholders:["pm","rnd","marketing","investor","cs"],
-    deliverables:["Analytics Report","Feedback Synthesis","Roadmap v2","Retention Strategy","Investor Update"],
-    tasks:[
-      {id:"p1",title:"Analyse launch metrics vs KPIs",owner:"pm",priority:"high",done:false},
-      {id:"p2",title:"Collect & synthesise user feedback",owner:"cs",priority:"high",done:false},
-      {id:"p3",title:"Prioritise & plan v2 feature roadmap",owner:"pm",priority:"high",done:false},
-      {id:"p4",title:"Optimise onboarding & activation funnel",owner:"cs",priority:"high",done:false},
-      {id:"p5",title:"Run growth experiments & A/B tests",owner:"marketing",priority:"medium",done:false},
-      {id:"p6",title:"Patch & resolve post-launch issues",owner:"rnd",priority:"high",done:false},
-      {id:"p7",title:"Prepare investor & board update",owner:"investor",priority:"medium",done:false},
-      {id:"p8",title:"Conduct 30/60/90-day review",owner:"pm",priority:"high",done:false},
-    ],
-    metrics:["DAU/MAU","Churn rate","NPS score"],
-    aiPrompt:"You are a Product Growth expert. Help the user interpret post-launch data, synthesise user feedback, plan iterative improvements, and build toward sustainable growth. Be insight-driven.",
-  },
-];
-
 const OWNER_MAP = {
-  pm:        {label:"Product",       color:"#60a5fa"},
-  rnd:       {label:"R&D",           color:"#a78bfa"},
-  design:    {label:"Design",        color:"#f472b6"},
-  marketing: {label:"Marketing",     color:"#fb923c"},
-  investor:  {label:"Investors",     color:"#34d399"},
-  cs:        {label:"Cust. Success", color:"#2dd4bf"},
+  pm:{label:"Product",color:"#60a5fa"},
+  rnd:{label:"R&D",color:"#a78bfa"},
+  design:{label:"Design",color:"#f472b6"},
+  marketing:{label:"Marketing",color:"#fb923c"},
+  investor:{label:"Investors",color:"#34d399"},
+  cs:{label:"Cust. Success",color:"#2dd4bf"},
 };
+const INIT_PHASES = [
+  {id:"concept",label:"Concept",sub:"Idea & Vision",icon:"💡",color:"#f0c040",
+   stakeholders:["pm","investor","rnd","design"],
+   deliverables:["Concept Note","Problem Statement","Vision Doc","Stakeholder Alignment","Budget Estimate"],
+   tasks:[
+     {id:"c1",title:"Define the core problem statement",owner:"pm",priority:"high",done:false},
+     {id:"c2",title:"Draft the product vision & mission",owner:"pm",priority:"high",done:false},
+     {id:"c3",title:"Create initial concept note document",owner:"pm",priority:"high",done:false},
+     {id:"c4",title:"Identify target audience segments",owner:"design",priority:"medium",done:false},
+     {id:"c5",title:"Outline key value propositions",owner:"investor",priority:"high",done:false},
+     {id:"c6",title:"Estimate initial resource requirements",owner:"investor",priority:"medium",done:false},
+     {id:"c7",title:"Get stakeholder alignment & sign-off",owner:"pm",priority:"high",done:false},
+   ],
+   metrics:["Stakeholder sign-offs","Concept clarity score","Budget baseline"],
+   aiPrompt:"You are a Product Strategy expert. Help the user refine their concept note, sharpen their problem statement, and articulate a compelling product vision. Be concise and actionable.",
+  },
+  {id:"research",label:"Research",sub:"Market & Users",icon:"🔍",color:"#60a5fa",
+   stakeholders:["pm","rnd","design","marketing","investor"],
+   deliverables:["Market Analysis","Competitor Landscape","User Research Report","Persona Definitions","SWOT Analysis"],
+   tasks:[
+     {id:"r1",title:"Conduct competitive landscape analysis",owner:"marketing",priority:"high",done:false},
+     {id:"r2",title:"Run user interviews & surveys",owner:"design",priority:"high",done:false},
+     {id:"r3",title:"Define user personas",owner:"design",priority:"high",done:false},
+     {id:"r4",title:"Analyse market size (TAM/SAM/SOM)",owner:"investor",priority:"high",done:false},
+     {id:"r5",title:"Identify regulatory & compliance factors",owner:"pm",priority:"medium",done:false},
+     {id:"r6",title:"Complete SWOT analysis",owner:"pm",priority:"medium",done:false},
+     {id:"r7",title:"Synthesise research into insights report",owner:"rnd",priority:"high",done:false},
+   ],
+   metrics:["Users interviewed","Competitors mapped","Market size validated"],
+   aiPrompt:"You are a Market Research specialist. Help the user analyse markets, identify opportunities, synthesise user research, and create sharp competitive insights.",
+  },
+  {id:"design",label:"Design",sub:"UX & Architecture",icon:"✦",color:"#f472b6",
+   stakeholders:["pm","rnd","design"],
+   deliverables:["PRD","User Journey Maps","Wireframes","System Architecture","API Specs"],
+   tasks:[
+     {id:"d1",title:"Write detailed Product Requirements Doc (PRD)",owner:"pm",priority:"high",done:false},
+     {id:"d2",title:"Create user journey & flow maps",owner:"design",priority:"high",done:false},
+     {id:"d3",title:"Design lo-fi wireframes",owner:"design",priority:"high",done:false},
+     {id:"d4",title:"Design hi-fi prototypes & design system",owner:"design",priority:"high",done:false},
+     {id:"d5",title:"Define system & data architecture",owner:"rnd",priority:"high",done:false},
+     {id:"d6",title:"Write API contracts & integration specs",owner:"rnd",priority:"medium",done:false},
+     {id:"d7",title:"Conduct design review & usability test",owner:"design",priority:"medium",done:false},
+     {id:"d8",title:"Finalise tech stack decisions",owner:"rnd",priority:"high",done:false},
+   ],
+   metrics:["PRD approval","Prototype usability score","Architecture sign-off"],
+   aiPrompt:"You are a Senior Product Designer and Solution Architect. Help the user create clear PRDs, thoughtful UX flows, and robust architecture decisions.",
+  },
+  {id:"development",label:"Build",sub:"Engineering & Dev",icon:"⚙️",color:"#a78bfa",
+   stakeholders:["rnd","pm","design"],
+   deliverables:["Sprint Plan","MVP Build","Code Repository","CI/CD Pipeline","Technical Docs"],
+   tasks:[
+     {id:"dev1",title:"Set up dev environment & repositories",owner:"rnd",priority:"high",done:false},
+     {id:"dev2",title:"Break PRD into epics & sprint stories",owner:"pm",priority:"high",done:false},
+     {id:"dev3",title:"Build core MVP features (Sprint 1)",owner:"rnd",priority:"high",done:false},
+     {id:"dev4",title:"Implement UI components from design",owner:"rnd",priority:"high",done:false},
+     {id:"dev5",title:"Set up CI/CD & deployment pipeline",owner:"rnd",priority:"medium",done:false},
+     {id:"dev6",title:"Integrate third-party APIs & services",owner:"rnd",priority:"medium",done:false},
+     {id:"dev7",title:"Code reviews & technical documentation",owner:"rnd",priority:"medium",done:false},
+     {id:"dev8",title:"Internal demo & PM feedback loop",owner:"pm",priority:"high",done:false},
+   ],
+   metrics:["Sprint velocity","Bug density","Feature completion %"],
+   aiPrompt:"You are a Senior Engineering Lead. Help the user plan sprints, break down features into tasks, resolve technical blockers, and maintain engineering quality.",
+  },
+  {id:"testing",label:"QA & Test",sub:"Quality & Validation",icon:"🧪",color:"#34d399",
+   stakeholders:["rnd","pm","design","cs"],
+   deliverables:["QA Test Plan","Bug Reports","Performance Report","Security Audit","UAT Sign-off"],
+   tasks:[
+     {id:"t1",title:"Write comprehensive QA test cases",owner:"rnd",priority:"high",done:false},
+     {id:"t2",title:"Conduct functional & regression testing",owner:"rnd",priority:"high",done:false},
+     {id:"t3",title:"Run performance & load testing",owner:"rnd",priority:"high",done:false},
+     {id:"t4",title:"Security audit & vulnerability scan",owner:"rnd",priority:"high",done:false},
+     {id:"t5",title:"User Acceptance Testing (UAT) with beta users",owner:"cs",priority:"high",done:false},
+     {id:"t6",title:"Accessibility testing (WCAG compliance)",owner:"design",priority:"medium",done:false},
+     {id:"t7",title:"Fix critical & high-priority bugs",owner:"rnd",priority:"high",done:false},
+     {id:"t8",title:"Final sign-off from PM & stakeholders",owner:"pm",priority:"high",done:false},
+   ],
+   metrics:["Test coverage %","Critical bugs resolved","UAT pass rate"],
+   aiPrompt:"You are a QA Lead. Help the user plan test strategies, prioritise bugs, interpret test results, and ensure launch readiness.",
+  },
+  {id:"gtm",label:"Go-to-Market",sub:"Launch Strategy",icon:"📣",color:"#fb923c",
+   stakeholders:["marketing","pm","investor","cs"],
+   deliverables:["GTM Strategy","Pricing Model","Launch Plan","Sales Playbook","Marketing Assets"],
+   tasks:[
+     {id:"g1",title:"Finalise pricing & packaging model",owner:"investor",priority:"high",done:false},
+     {id:"g2",title:"Define GTM strategy & launch channels",owner:"marketing",priority:"high",done:false},
+     {id:"g3",title:"Create launch messaging & positioning",owner:"marketing",priority:"high",done:false},
+     {id:"g4",title:"Build website landing page & SEO",owner:"marketing",priority:"high",done:false},
+     {id:"g5",title:"Develop sales enablement materials",owner:"marketing",priority:"medium",done:false},
+     {id:"g6",title:"Set up customer onboarding flows",owner:"cs",priority:"high",done:false},
+     {id:"g7",title:"Train support & success teams",owner:"cs",priority:"medium",done:false},
+     {id:"g8",title:"Define launch KPIs & success metrics",owner:"pm",priority:"high",done:false},
+     {id:"g9",title:"Investor & press briefing preparation",owner:"investor",priority:"medium",done:false},
+   ],
+   metrics:["Channels activated","Marketing assets ready","Pipeline generated"],
+   aiPrompt:"You are a Go-to-Market Strategist. Help the user craft compelling GTM strategies, sharpen positioning, define pricing, and plan a high-impact product launch.",
+  },
+  {id:"launch",label:"Launch",sub:"Release Day",icon:"🚀",color:"#f0c040",
+   stakeholders:["pm","rnd","marketing","investor","cs"],
+   deliverables:["Product Live","Press Release","Announcement Campaign","Launch Dashboard","Incident Response Plan"],
+   tasks:[
+     {id:"l1",title:"Final production deployment & smoke test",owner:"rnd",priority:"high",done:false},
+     {id:"l2",title:"Activate marketing campaigns across channels",owner:"marketing",priority:"high",done:false},
+     {id:"l3",title:"Publish press release & announcements",owner:"marketing",priority:"high",done:false},
+     {id:"l4",title:"Monitor real-time metrics & alerts",owner:"pm",priority:"high",done:false},
+     {id:"l5",title:"Activate customer support & success teams",owner:"cs",priority:"high",done:false},
+     {id:"l6",title:"Executive & investor communications",owner:"investor",priority:"medium",done:false},
+     {id:"l7",title:"Launch retrospective (immediate 24h)",owner:"pm",priority:"medium",done:false},
+   ],
+   metrics:["Uptime %","Sign-ups Day 1","Revenue Day 1"],
+   aiPrompt:"You are a Launch Director. Help coordinate all launch activities, create compelling announcements, and ensure a smooth product launch.",
+  },
+  {id:"postrelease",label:"Post-Release",sub:"Growth & Iteration",icon:"📈",color:"#2dd4bf",
+   stakeholders:["pm","rnd","marketing","investor","cs"],
+   deliverables:["Analytics Report","Feedback Synthesis","Roadmap v2","Retention Strategy","Investor Update"],
+   tasks:[
+     {id:"p1",title:"Analyse launch metrics vs KPIs",owner:"pm",priority:"high",done:false},
+     {id:"p2",title:"Collect & synthesise user feedback",owner:"cs",priority:"high",done:false},
+     {id:"p3",title:"Prioritise & plan v2 feature roadmap",owner:"pm",priority:"high",done:false},
+     {id:"p4",title:"Optimise onboarding & activation funnel",owner:"cs",priority:"high",done:false},
+     {id:"p5",title:"Run growth experiments & A/B tests",owner:"marketing",priority:"medium",done:false},
+     {id:"p6",title:"Patch & resolve post-launch issues",owner:"rnd",priority:"high",done:false},
+     {id:"p7",title:"Prepare investor & board update",owner:"investor",priority:"medium",done:false},
+     {id:"p8",title:"Conduct 30/60/90-day review",owner:"pm",priority:"high",done:false},
+   ],
+   metrics:["DAU/MAU","Churn rate","NPS score"],
+   aiPrompt:"You are a Product Growth expert. Help the user interpret post-launch data, synthesise user feedback, plan iterative improvements, and build toward sustainable growth.",
+  },
+];
 
-function ProgressRing({ pct, color, size=64 }) {
-  const r = (size - 10) / 2;
-  const circ = 2 * Math.PI * r;
-  const offset = circ - (pct / 100) * circ;
+// ── UTILS ────────────────────────────────────────────────────────────────────
+function uid() { return Math.random().toString(36).slice(2,9); }
+function phasePct(p) {
+  return p.tasks.length ? Math.round(p.tasks.filter(t=>t.done).length/p.tasks.length*100) : 0;
+}
+
+// ── PROGRESS RING ────────────────────────────────────────────────────────────
+function Ring({pct,color,size=62}) {
+  const r=(size-10)/2, c=2*Math.PI*r, off=c-(pct/100)*c;
   return (
     <svg width={size} height={size}>
       <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="5"/>
       <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth="5"
-        strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round"
+        strokeDasharray={c} strokeDashoffset={off} strokeLinecap="round"
         style={{transform:"rotate(-90deg)",transformOrigin:"center",transition:"stroke-dashoffset 0.5s"}}/>
       <text x={size/2} y={size/2-3} textAnchor="middle" dominantBaseline="middle"
-        fontSize="13" fontFamily="Syne,sans-serif" fontWeight="800" fill="#e8ecf4">{pct}%</text>
-      <text x={size/2} y={size/2+11} textAnchor="middle" dominantBaseline="middle"
+        fontSize="12" fontFamily="Syne,sans-serif" fontWeight="800" fill="#e8ecf4">{pct}%</text>
+      <text x={size/2} y={size/2+10} textAnchor="middle" dominantBaseline="middle"
         fontSize="8" fontFamily="DM Sans,sans-serif" fill="#5a6270">done</text>
     </svg>
   );
 }
 
-function ApiKeyModal({ onSave }) {
-  const [val, setVal] = useState("");
+// ── EXPORT HELPERS ───────────────────────────────────────────────────────────
+function exportToExcel(phases, productName, scope, activeIdx) {
+  const wb = XLSX.utils.book_new();
+  const exportPhases = scope === "current" ? [phases[activeIdx]] : phases;
+
+  // Summary sheet
+  const summaryData = [
+    ["Trajectory — Product Lifecycle Export"],
+    ["Product", productName],
+    ["Export Date", new Date().toLocaleDateString()],
+    ["Scope", scope === "current" ? `Current Phase: ${phases[activeIdx].label}` : "All Phases"],
+    [],
+    ["Phase", "Total Tasks", "Completed", "Pending", "Progress %", "Deliverables"],
+  ];
+  phases.forEach(p => {
+    const done = p.tasks.filter(t=>t.done).length;
+    summaryData.push([p.label, p.tasks.length, done, p.tasks.length-done, phasePct(p)+"%", p.deliverables.join(", ")]);
+  });
+  const ws0 = XLSX.utils.aoa_to_sheet(summaryData);
+  ws0["!cols"] = [{wch:22},{wch:12},{wch:12},{wch:12},{wch:12},{wch:50}];
+  XLSX.utils.book_append_sheet(wb, ws0, "Summary");
+
+  // Per-phase task sheets
+  exportPhases.forEach(p => {
+    const rows = [
+      [`Phase: ${p.label} — ${p.sub}`],
+      ["Progress", phasePct(p)+"%"],
+      [],
+      ["#","Task","Owner","Priority","Status"],
+    ];
+    p.tasks.forEach((t,i) => {
+      rows.push([i+1, t.title, OWNER_MAP[t.owner]?.label||t.owner, t.priority.toUpperCase(), t.done?"✓ Done":"Pending"]);
+    });
+    rows.push([]);
+    rows.push(["Deliverables"]);
+    p.deliverables.forEach(d => rows.push(["", d]));
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    ws["!cols"] = [{wch:4},{wch:48},{wch:16},{wch:10},{wch:10}];
+    const safeName = p.label.replace(/[^a-zA-Z0-9]/g,"").slice(0,28);
+    XLSX.utils.book_append_sheet(wb, ws, safeName);
+  });
+
+  XLSX.writeFile(wb, `Trajectory_${productName.replace(/\s+/g,"_")}_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+function exportToPDF(phases, productName, scope, activeIdx) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+  const exportPhases = scope === "current" ? [phases[activeIdx]] : phases;
+  const W = 210, margin = 15;
+
+  // Header
+  doc.setFillColor(10,12,16);
+  doc.rect(0,0,W,28,`F`);
+  doc.setFillColor(240,192,64);
+  doc.roundedRect(margin,7,14,14,3,3,"F");
+  doc.setTextColor(10,12,16);
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(8);
+  doc.text("T",margin+3.5,16.5);
+  doc.setTextColor(240,192,64);
+  doc.setFontSize(15);
+  doc.setFont("helvetica","bold");
+  doc.text("Trajectory",margin+18,17);
+  doc.setTextColor(140,150,170);
+  doc.setFontSize(8);
+  doc.setFont("helvetica","normal");
+  doc.text("Product Lifecycle Report",margin+18,22);
+  doc.setTextColor(200,210,220);
+  doc.setFontSize(8);
+  const dateStr = new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+  doc.text(`Product: ${productName}   |   ${dateStr}   |   ${scope==="current"?"Phase: "+phases[activeIdx].label:"Full Lifecycle"}`,margin,35);
+
+  // Progress summary bar
+  let y = 42;
+  doc.setFillColor(22,27,36);
+  doc.roundedRect(margin,y,W-margin*2,22,3,3,"F");
+  const totalDone = phases.reduce((a,p)=>a+p.tasks.filter(t=>t.done).length,0);
+  const totalTasks = phases.reduce((a,p)=>a+p.tasks.length,0);
+  const totalPct = totalTasks ? Math.round(totalDone/totalTasks*100) : 0;
+  doc.setTextColor(240,192,64);
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(9);
+  doc.text("OVERALL PROGRESS",margin+4,y+7);
+  doc.setTextColor(200,210,220);
+  doc.setFontSize(9);
+  doc.text(`${totalDone}/${totalTasks} tasks completed   ${totalPct}%`,margin+4,y+14);
+  // mini progress bar
+  doc.setFillColor(28,34,48);
+  doc.roundedRect(margin+85, y+10, W-margin*2-90, 4, 2,2,"F");
+  if(totalPct>0){
+    const r1=[240,192,64], r2=[251,146,60];
+    const mix=(a,b,t)=>Math.round(a+(b-a)*t);
+    doc.setFillColor(mix(r1[0],r2[0],totalPct/100),mix(r1[1],r2[1],totalPct/100),mix(r1[2],r2[2],totalPct/100));
+    doc.roundedRect(margin+85, y+10, (W-margin*2-90)*totalPct/100, 4, 2,2,"F");
+  }
+  y += 28;
+
+  // Phase pages
+  exportPhases.forEach((p,pi) => {
+    if(pi > 0){ doc.addPage(); y=15; }
+    const pct = phasePct(p);
+    const done = p.tasks.filter(t=>t.done).length;
+
+    // Phase title bar
+    const hex = p.color;
+    const hx = parseInt(hex.slice(1),16);
+    const pr=[(hx>>16)&255,(hx>>8)&255,hx&255];
+    doc.setFillColor(22,27,36);
+    doc.roundedRect(margin,y,W-margin*2,16,3,3,"F");
+    doc.setDrawColor(pr[0],pr[1],pr[2]);
+    doc.setLineWidth(0.6);
+    doc.roundedRect(margin,y,W-margin*2,16,3,3,"S");
+    doc.setTextColor(pr[0],pr[1],pr[2]);
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(12);
+    doc.text(`${p.label}  —  ${p.sub}`,margin+4,y+9);
+    doc.setTextColor(140,150,170);
+    doc.setFontSize(8);
+    doc.text(`${done}/${p.tasks.length} tasks · ${pct}% complete`,W-margin-2,y+9,{align:"right"});
+    // small progress pill
+    doc.setFillColor(28,34,48);
+    doc.roundedRect(margin,y+12,W-margin*2,3,1,1,"F");
+    if(pct>0){
+      doc.setFillColor(pr[0],pr[1],pr[2]);
+      doc.roundedRect(margin,y+12,(W-margin*2)*pct/100,3,1,1,"F");
+    }
+    y += 20;
+
+    // Tasks table
+    doc.autoTable({
+      startY: y,
+      head: [["#","Task","Owner","Priority","Status"]],
+      body: p.tasks.map((t,i) => [
+        i+1, t.title, OWNER_MAP[t.owner]?.label||t.owner,
+        t.priority.toUpperCase(), t.done?"✓ Done":"Pending"
+      ]),
+      theme:"plain",
+      styles:{font:"helvetica",fontSize:8,cellPadding:2.5,textColor:[200,210,220],lineColor:[30,40,54],lineWidth:0.1},
+      headStyles:{fillColor:[22,27,36],textColor:[140,150,170],fontStyle:"bold",fontSize:7.5},
+      columnStyles:{0:{cellWidth:8},2:{cellWidth:24},3:{cellWidth:18},4:{cellWidth:18}},
+      alternateRowStyles:{fillColor:[15,18,24]},
+      didParseCell(data){
+        if(data.column.index===4 && data.cell.text[0]==="✓ Done"){
+          data.cell.styles.textColor=[52,211,153];
+        }
+        if(data.column.index===3){
+          const v=data.cell.text[0];
+          if(v==="HIGH") data.cell.styles.textColor=[248,113,113];
+          else if(v==="MEDIUM") data.cell.styles.textColor=[251,146,60];
+        }
+      },
+      margin:{left:margin,right:margin},
+    });
+    y = doc.lastAutoTable.finalY + 6;
+
+    // Deliverables
+    doc.setTextColor(90,98,112);
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(7);
+    doc.text("DELIVERABLES",margin,y+4);
+    y += 7;
+    const chips = p.deliverables;
+    let cx = margin;
+    chips.forEach(d => {
+      const tw = doc.getTextWidth(d)+6;
+      if(cx+tw > W-margin){ cx=margin; y+=7; }
+      doc.setFillColor(22,27,36);
+      doc.roundedRect(cx,y-3,tw,6,1.5,1.5,"F");
+      doc.setTextColor(pr[0],pr[1],pr[2]);
+      doc.setFontSize(7.5);
+      doc.setFont("helvetica","normal");
+      doc.text(d,cx+3,y+1);
+      cx += tw+4;
+    });
+    y += 10;
+  });
+
+  doc.save(`Trajectory_${productName.replace(/\s+/g,"_")}_${new Date().toISOString().slice(0,10)}.pdf`);
+}
+
+// ── SUB-COMPONENTS ───────────────────────────────────────────────────────────
+function ApiKeyModal({onSave}) {
+  const [val,setVal]=useState("");
   return (
-    <div className="api-modal-overlay">
-      <div className="api-modal">
+    <div className="modal-overlay">
+      <div className="modal-box">
         <div className="api-modal-logo">
-          <img src={SVG_ICON} className="api-modal-icon" alt="Trajectory icon"/>
+          <img src={SVG_ICON} className="api-modal-icon" alt="Trajectory"/>
           <div>
             <div className="api-modal-title">Trajectory<span>.</span>
               <small>AI Product Lifecycle</small>
             </div>
           </div>
         </div>
-        <p>
-          This app uses the <strong style={{color:"#e8ecf4"}}>Anthropic Claude API</strong> to power
-          phase-specific AI assistants across all 8 product lifecycle stages.
-          Your key is stored only in <strong style={{color:"#e8ecf4"}}>your browser</strong> and sent
-          exclusively to Anthropic's servers.
+        <p style={{color:"var(--text2)",fontSize:13,lineHeight:1.65,marginBottom:18}}>
+          Uses the <strong style={{color:"var(--text)"}}>Anthropic Claude API</strong> for phase-specific
+          AI assistants. Your key is stored only in your browser and sent exclusively to Anthropic.
         </p>
-        <label>Anthropic API Key</label>
-        <input
-          type="password"
-          placeholder="sk-ant-api03-…"
-          value={val}
-          onChange={e => setVal(e.target.value)}
-          onKeyDown={e => e.key==="Enter" && val.startsWith("sk-") && onSave(val)}
-          autoFocus
-        />
-        <button className="api-modal-btn" disabled={!val.startsWith("sk-")} onClick={() => onSave(val)}>
+        <label className="modal-label">Anthropic API Key</label>
+        <input className="modal-input" type="password" placeholder="sk-ant-api03-…"
+          value={val} onChange={e=>setVal(e.target.value)}
+          onKeyDown={e=>e.key==="Enter"&&val.startsWith("sk-")&&onSave(val)} autoFocus/>
+        <button className="btn-gold" style={{width:"100%",padding:12,fontSize:14}}
+          disabled={!val.startsWith("sk-")} onClick={()=>onSave(val)}>
           Launch Trajectory →
         </button>
-        <p className="api-modal-note">
-          Get your key at <a href="https://console.anthropic.com" target="_blank" rel="noreferrer">console.anthropic.com</a>
+        <p style={{marginTop:12,fontSize:11,color:"var(--text3)",textAlign:"center"}}>
+          <a href="https://console.anthropic.com" target="_blank" style={{color:"var(--gold)"}}>console.anthropic.com</a>
           &nbsp;·&nbsp;
-          <span style={{cursor:"pointer",textDecoration:"underline",color:"#5a6270"}} onClick={() => onSave("SKIP")}>
-            Skip — use without AI
-          </span>
+          <span style={{cursor:"pointer",textDecoration:"underline"}} onClick={()=>onSave("SKIP")}>Skip — use without AI</span>
         </p>
       </div>
     </div>
   );
 }
 
-function InstallBanner({ onInstall, onDismiss }) {
+function ExportModal({phases,productName,activeIdx,onClose}) {
+  const [fmt,setFmt]=useState("pdf");
+  const [scope,setScope]=useState("all");
+  function doExport(){
+    if(fmt==="excel") exportToExcel(phases,productName,scope,activeIdx);
+    else exportToPDF(phases,productName,scope,activeIdx);
+    onClose();
+  }
   return (
-    <div className="install-banner">
-      <img src={SVG_ICON} className="install-banner-icon" alt="Trajectory"/>
-      <div className="install-banner-text">
-        <div className="install-banner-title">Install Trajectory</div>
-        <div className="install-banner-sub">Add to home screen for offline access & app experience</div>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-box" onClick={e=>e.stopPropagation()}>
+        <div className="modal-title">📤 Export Progress Report</div>
+        <div className="export-options">
+          <div className={`export-card ${fmt==="pdf"?"selected":""}`} onClick={()=>setFmt("pdf")}>
+            <div className="export-card-icon">📄</div>
+            <div className="export-card-title">PDF Report</div>
+            <div className="export-card-sub">Styled report with progress bars, task tables & deliverables</div>
+          </div>
+          <div className={`export-card ${fmt==="excel"?"selected":""}`} onClick={()=>setFmt("excel")}>
+            <div className="export-card-icon">📊</div>
+            <div className="export-card-title">Excel Workbook</div>
+            <div className="export-card-sub">Summary + per-phase sheets for filtering & analysis</div>
+          </div>
+        </div>
+        <div className="export-scope">
+          <div style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text3)",marginBottom:8}}>Scope</div>
+          <label>
+            <input type="radio" name="scope" value="all" checked={scope==="all"} onChange={()=>setScope("all")}/>
+            Full lifecycle — all 8 phases
+          </label>
+          <label>
+            <input type="radio" name="scope" value="current" checked={scope==="current"} onChange={()=>setScope("current")}/>
+            Current phase only — {phases[activeIdx].label}
+          </label>
+        </div>
+        <div className="modal-actions">
+          <button className="btn-ghost" onClick={onClose}>Cancel</button>
+          <button className="btn-gold" onClick={doExport}>Export {fmt.toUpperCase()}</button>
+        </div>
       </div>
-      <button className="install-banner-btn" onClick={onInstall}>Install App</button>
-      <button className="install-banner-close" onClick={onDismiss}>✕</button>
     </div>
   );
 }
 
+function AddTaskRow({phaseColor, onAdd}) {
+  const [title,setTitle]=useState("");
+  const [owner,setOwner]=useState("pm");
+  const [pri,setPri]=useState("medium");
+  function submit(){
+    if(!title.trim()) return;
+    onAdd({id:uid(),title:title.trim(),owner,priority:pri,done:false});
+    setTitle("");
+  }
+  return (
+    <div className="add-row">
+      <input placeholder="+ Add a task…" value={title}
+        onChange={e=>setTitle(e.target.value)}
+        onKeyDown={e=>e.key==="Enter"&&submit()}/>
+      <select value={owner} onChange={e=>setOwner(e.target.value)}>
+        {Object.entries(OWNER_MAP).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}
+      </select>
+      <select value={pri} onChange={e=>setPri(e.target.value)}>
+        <option value="high">High</option>
+        <option value="medium">Med</option>
+        <option value="low">Low</option>
+      </select>
+      <button className="add-row-btn" onClick={submit} title="Add task">+</button>
+    </div>
+  );
+}
+
+function AddDeliverableRow({phaseColor, onAdd}) {
+  const [val,setVal]=useState("");
+  function submit(){
+    if(!val.trim()) return;
+    onAdd(val.trim());
+    setVal("");
+  }
+  return (
+    <div className="add-chip-row">
+      <input placeholder="+ Add deliverable…" value={val}
+        onChange={e=>setVal(e.target.value)}
+        onKeyDown={e=>e.key==="Enter"&&submit()}/>
+      <button className="add-row-btn" onClick={submit} title="Add deliverable">+</button>
+    </div>
+  );
+}
+
+// ── MAIN APP ─────────────────────────────────────────────────────────────────
 function App() {
-  const [apiKey, setApiKey]           = useState(() => localStorage.getItem("trajectory_apikey") || null);
-  const [activePhase, setActivePhase] = useState(0);
-  const [activeSH, setActiveSH]       = useState("all");
-  const [phases, setPhases]           = useState(PHASES_DATA.map(p => ({...p, tasks:p.tasks.map(t=>({...t}))})));
-  const [productName, setProductName] = useState("My Product");
-  const [notes, setNotes]             = useState({});
-  const [aiChats, setAiChats]         = useState({});
-  const [aiInput, setAiInput]         = useState("");
-  const [aiLoading, setAiLoading]     = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [showInstall, setShowInstall]       = useState(false);
+  const [apiKey,setApiKey]         = useState(()=>localStorage.getItem("trajectory_apikey")||null);
+  const [phases,setPhases]         = useState(()=>INIT_PHASES.map(p=>({...p,tasks:p.tasks.map(t=>({...t})),deliverables:[...p.deliverables]})));
+  const [activePhase,setActivePhase] = useState(0);
+  const [activeSH,setActiveSH]     = useState("all");
+  const [productName,setProductName] = useState("My Product");
+  const [notes,setNotes]           = useState({});
+  const [aiChats,setAiChats]       = useState({});
+  const [aiInput,setAiInput]       = useState("");
+  const [aiLoading,setAiLoading]   = useState(false);
+  const [showExport,setShowExport] = useState(false);
+  const [deferredPrompt,setDeferred] = useState(null);
+  const [showInstall,setShowInstall] = useState(false);
   const aiRef = useRef(null);
 
-  useEffect(() => {
-    const handler = e => { e.preventDefault(); setDeferredPrompt(e); setShowInstall(true); };
-    window.addEventListener("beforeinstallprompt", handler);
-    return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, []);
+  useEffect(()=>{
+    const h=e=>{e.preventDefault();setDeferred(e);setShowInstall(true);};
+    window.addEventListener("beforeinstallprompt",h);
+    return ()=>window.removeEventListener("beforeinstallprompt",h);
+  },[]);
 
-  function saveApiKey(key) {
-    if (key !== "SKIP") localStorage.setItem("trajectory_apikey", key);
+  function saveApiKey(key){
+    if(key!=="SKIP") localStorage.setItem("trajectory_apikey",key);
     setApiKey(key);
   }
 
-  async function handleInstall() {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    setDeferredPrompt(null);
-    setShowInstall(false);
-  }
-
   const phase = phases[activePhase];
-  const phaseColor = phase.color;
-  const visibleTasks = activeSH === "all" ? phase.tasks : phase.tasks.filter(t => t.owner === activeSH);
-  const phasePct = phase.tasks.length ? Math.round(phase.tasks.filter(t=>t.done).length / phase.tasks.length * 100) : 0;
-  const allTasks = phases.flatMap(p => p.tasks);
-  const totalPct = allTasks.length ? Math.round(allTasks.filter(t=>t.done).length / allTasks.length * 100) : 0;
-  const currentChat = aiChats[phase.id] || [];
+  const pc = phase.color;
+  const visibleTasks = activeSH==="all" ? phase.tasks : phase.tasks.filter(t=>t.owner===activeSH);
+  const currPct = phasePct(phase);
+  const allTasks = phases.flatMap(p=>p.tasks);
+  const totalPct = allTasks.length ? Math.round(allTasks.filter(t=>t.done).length/allTasks.length*100) : 0;
+  const chat = aiChats[phase.id]||[];
 
-  function toggleTask(id) {
-    setPhases(prev => prev.map((p,i) => i !== activePhase ? p : {
-      ...p, tasks: p.tasks.map(t => t.id === id ? {...t, done:!t.done} : t)
-    }));
+  // ── Phase mutators
+  function updatePhase(idx, fn) {
+    setPhases(prev=>prev.map((p,i)=>i===idx?fn(p):p));
+  }
+  function toggleTask(tid) {
+    updatePhase(activePhase, p=>({...p,tasks:p.tasks.map(t=>t.id===tid?{...t,done:!t.done}:t)}));
+  }
+  function addTask(task) {
+    updatePhase(activePhase, p=>({...p,tasks:[...p.tasks,task]}));
+  }
+  function deleteTask(tid) {
+    updatePhase(activePhase, p=>({...p,tasks:p.tasks.filter(t=>t.id!==tid)}));
+  }
+  function addDeliverable(d) {
+    updatePhase(activePhase, p=>({...p,deliverables:[...p.deliverables,d]}));
+  }
+  function deleteDeliverable(d) {
+    updatePhase(activePhase, p=>({...p,deliverables:p.deliverables.filter(x=>x!==d)}));
   }
 
+  // ── AI
   async function sendAI() {
-    if (!aiInput.trim() || aiLoading || !apiKey || apiKey === "SKIP") return;
-    const userMsg = aiInput.trim();
-    setAiInput("");
-    const base = [...currentChat, {role:"user", text:userMsg}];
-    setAiChats(prev => ({...prev, [phase.id]: [...base, {role:"loading", text:"Thinking…"}]}));
+    if(!aiInput.trim()||aiLoading||!apiKey||apiKey==="SKIP") return;
+    const msg=aiInput.trim(); setAiInput("");
+    const base=[...chat,{role:"user",text:msg}];
+    setAiChats(prev=>({...prev,[phase.id]:[...base,{role:"loading",text:"Thinking…"}]}));
     setAiLoading(true);
-    setTimeout(() => { if (aiRef.current) aiRef.current.scrollTop = 9999; }, 50);
-    try {
-      const history = base.slice(-8).flatMap(m =>
-        m.role === "user" ? [{role:"user",content:m.text}] : [{role:"assistant",content:m.text}]
+    setTimeout(()=>{if(aiRef.current)aiRef.current.scrollTop=9999;},50);
+    try{
+      const history=base.slice(-8).flatMap(m=>
+        m.role==="user"?[{role:"user",content:m.text}]:[{role:"assistant",content:m.text}]
       );
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res=await fetch("https://api.anthropic.com/v1/messages",{
         method:"POST",
         headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01"},
-        body: JSON.stringify({
-          model:"claude-sonnet-4-20250514",
-          max_tokens:1000,
-          system: phase.aiPrompt + ` Context: Product "${productName}", phase "${phase.label}", completion ${phasePct}%. Deliverables: ${phase.deliverables.join(", ")}. Be concise.`,
-          messages: history,
+        body:JSON.stringify({
+          model:"claude-sonnet-4-20250514",max_tokens:1000,
+          system:phase.aiPrompt+` Context: product "${productName}", phase "${phase.label}", ${currPct}% done. Deliverables: ${phase.deliverables.join(", ")}.`,
+          messages:history,
         })
       });
-      const data = await res.json();
-      const reply = data.content?.find(c=>c.type==="text")?.text || "Sorry, no response.";
-      setAiChats(prev => ({...prev, [phase.id]: [...base, {role:"assistant", text:reply}]}));
-    } catch(err) {
-      setAiChats(prev => ({...prev, [phase.id]: [...base, {role:"assistant", text:"⚠️ " + err.message}]}));
-    } finally {
+      const data=await res.json();
+      const reply=data.content?.find(c=>c.type==="text")?.text||"No response.";
+      setAiChats(prev=>({...prev,[phase.id]:[...base,{role:"assistant",text:reply}]}));
+    }catch(err){
+      setAiChats(prev=>({...prev,[phase.id]:[...base,{role:"assistant",text:"⚠️ "+err.message}]}));
+    }finally{
       setAiLoading(false);
-      setTimeout(() => { if (aiRef.current) aiRef.current.scrollTop = 9999; }, 100);
+      setTimeout(()=>{if(aiRef.current)aiRef.current.scrollTop=9999;},100);
     }
   }
 
-  if (!apiKey) return <ApiKeyModal onSave={saveApiKey}/>;
+  if(!apiKey) return <ApiKeyModal onSave={saveApiKey}/>;
 
   return (
     <div className="plc-app">
-      {showInstall && <InstallBanner onInstall={handleInstall} onDismiss={() => setShowInstall(false)}/>}
+      {showInstall&&(
+        <div className="install-banner">
+          <img src={SVG_ICON} alt="Trajectory"/>
+          <div className="install-banner-text">
+            <div className="install-banner-title">Install Trajectory</div>
+            <div className="install-banner-sub">Add to home screen for full app experience</div>
+          </div>
+          <button className="btn-gold" style={{padding:"8px 16px",fontSize:12}}
+            onClick={async()=>{deferredPrompt?.prompt();setShowInstall(false);}}>Install</button>
+          <button className="install-banner-close" onClick={()=>setShowInstall(false)}>✕</button>
+        </div>
+      )}
+
+      {showExport&&<ExportModal phases={phases} productName={productName} activeIdx={activePhase} onClose={()=>setShowExport(false)}/>}
 
       {/* HEADER */}
       <header className="plc-header">
         <div className="plc-logo">
-          <img src={SVG_ICON} className="plc-logo-icon" alt="Trajectory logo"/>
+          <img src={SVG_ICON} alt="Trajectory"/>
           <div>
             <div className="plc-logo-text">Trajectory<span>.</span></div>
-            <div className="plc-logo-tagline">Product Lifecycle</div>
+            <div className="plc-logo-tag">Product Lifecycle</div>
           </div>
         </div>
         <div className="plc-header-right">
-          <div className="plc-product-name">
-            <span>Product:</span>
-            <input value={productName} onChange={e=>setProductName(e.target.value)} placeholder="Product name…"/>
-          </div>
-          <button className="plc-api-btn" onClick={() => { localStorage.removeItem("trajectory_apikey"); setApiKey(null); }}>
+          <input className="plc-product-input" value={productName}
+            onChange={e=>setProductName(e.target.value)} placeholder="Product name…"/>
+          <button className="hdr-btn gold" onClick={()=>setShowExport(true)}>
+            <span>📤</span> Export
+          </button>
+          <button className="hdr-btn" onClick={()=>{localStorage.removeItem("trajectory_apikey");setApiKey(null);}}>
             🔑 API Key
           </button>
         </div>
       </header>
 
-      {/* PHASE TIMELINE */}
+      {/* TIMELINE */}
       <div className="plc-timeline">
         <div className="plc-timeline-track">
-          {phases.map((p,i) => {
-            const pct = p.tasks.length ? Math.round(p.tasks.filter(t=>t.done).length/p.tasks.length*100) : 0;
-            const isActive = i === activePhase;
+          {phases.map((p,i)=>{
+            const pct=phasePct(p); const active=i===activePhase;
             return (
               <React.Fragment key={p.id}>
                 <div className="plc-phase-tab"
-                  style={{borderBottomColor:isActive?p.color:"transparent"}}
-                  onClick={() => setActivePhase(i)}>
+                  style={{borderBottomColor:active?p.color:"transparent"}}
+                  onClick={()=>setActivePhase(i)}>
                   <div className="plc-phase-icon">{p.icon}</div>
-                  <div className="plc-phase-label" style={{color:isActive?p.color:"#8b96aa"}}>{p.label}</div>
+                  <div className="plc-phase-label" style={{color:active?p.color:"#8b96aa"}}>{p.label}</div>
                   <div className="plc-phase-sub">{p.sub}</div>
                   <div style={{position:"absolute",bottom:0,left:0,height:3,width:`${pct}%`,background:p.color,opacity:0.35,transition:"width 0.4s"}}/>
                 </div>
-                {i < phases.length-1 && <div className="plc-connector"/>}
+                {i<phases.length-1&&<div className="plc-connector"/>}
               </React.Fragment>
             );
           })}
         </div>
       </div>
 
-      {/* STAKEHOLDER FILTER */}
+      {/* STAKEHOLDERS */}
       <div className="plc-stakeholders">
-        {STAKEHOLDERS.map(s => (
-          <button key={s.id} className="plc-sh-btn"
+        {STAKEHOLDERS.map(s=>(
+          <button key={s.id} className="sh-btn"
             style={activeSH===s.id?{borderColor:s.color,color:s.color,background:"rgba(255,255,255,0.04)"}:{}}
-            onClick={() => setActiveSH(s.id)}>
+            onClick={()=>setActiveSH(s.id)}>
             <span>{s.icon}</span>{s.label}
           </button>
         ))}
@@ -635,131 +850,163 @@ function App() {
 
       {/* MAIN */}
       <div className="plc-main">
+
+        {/* CONTENT */}
         <div className="plc-content">
           <div className="plc-phase-header">
             <div>
               <div className="plc-phase-title">
-                {phase.icon} <span style={{color:phaseColor}}>{phase.label}</span> — {phase.sub}
+                {phase.icon} <span style={{color:pc}}>{phase.label}</span> — {phase.sub}
               </div>
               <div className="plc-phase-desc">
                 {visibleTasks.length} task{visibleTasks.length!==1?"s":""}
                 {activeSH!=="all"?` · ${STAKEHOLDERS.find(s=>s.id===activeSH)?.label}`:""} · {visibleTasks.filter(t=>t.done).length} completed
               </div>
             </div>
-            <ProgressRing pct={phasePct} color={phaseColor} size={64}/>
+            <Ring pct={currPct} color={pc} size={62}/>
           </div>
 
-          <div className="plc-section-title">Tasks & Checklist</div>
-          <div className="plc-tasks">
-            {visibleTasks.length === 0 && (
-              <div style={{color:"#5a6270",fontSize:13,padding:"10px 0"}}>No tasks for this stakeholder in this phase.</div>
+          {/* TASKS */}
+          <div className="section-title">Tasks & Checklist</div>
+          <div className="tasks-list">
+            {visibleTasks.length===0&&(
+              <div style={{color:"var(--text3)",fontSize:12,padding:"8px 0"}}>No tasks for this stakeholder.</div>
             )}
-            {visibleTasks.map(task => {
-              const o = OWNER_MAP[task.owner] || {label:task.owner,color:"#94a3b8"};
+            {visibleTasks.map(task=>{
+              const o=OWNER_MAP[task.owner]||{label:task.owner,color:"#94a3b8"};
               return (
-                <div key={task.id} className="plc-task" style={{opacity:task.done?0.45:1}} onClick={() => toggleTask(task.id)}>
-                  <div className="plc-task-check" style={task.done?{background:phaseColor,borderColor:phaseColor,color:"#0a0c10"}:{}}>
+                <div key={task.id} className="task-item" style={{opacity:task.done?0.45:1}}
+                  onClick={e=>{if(!e.target.closest(".task-del-btn"))toggleTask(task.id);}}>
+                  <div className="task-check"
+                    style={task.done?{background:pc,borderColor:pc,color:"#0a0c10"}:{}}>
                     {task.done?"✓":""}
                   </div>
-                  <div className="plc-task-title" style={task.done?{textDecoration:"line-through",color:"#8b96aa"}:{}}>{task.title}</div>
-                  <div className="plc-task-meta">
-                    <span className="plc-task-owner" style={{color:o.color}}>{o.label}</span>
-                    <span className={`plc-task-priority plc-priority-${task.priority}`}>{task.priority}</span>
+                  <div className="task-title"
+                    style={task.done?{textDecoration:"line-through",color:"var(--text2)"}:{}}>{task.title}</div>
+                  <div className="task-meta">
+                    <span className="task-owner" style={{color:o.color}}>{o.label}</span>
+                    <span className={`task-pri pri-${task.priority}`}>{task.priority}</span>
                   </div>
+                  <button className="task-del-btn" title="Delete task"
+                    onClick={e=>{e.stopPropagation();deleteTask(task.id);}}>✕</button>
                 </div>
               );
             })}
           </div>
+          {activeSH==="all"&&<AddTaskRow phaseColor={pc} onAdd={addTask}/>}
 
-          <div className="plc-section-title">Key Deliverables</div>
-          <div className="plc-deliverables">
-            {phase.deliverables.map(d => (
-              <div key={d} className="plc-deliverable">
-                <div style={{width:6,height:6,borderRadius:"50%",background:phaseColor,flexShrink:0}}/>
+          {/* DELIVERABLES */}
+          <div className="section-title" style={{marginTop:8}}>Key Deliverables</div>
+          <div className="deliverables-list">
+            {phase.deliverables.map(d=>(
+              <div key={d} className="deliverable-chip">
+                <div className="chip-dot" style={{background:pc}}/>
                 {d}
+                <button className="chip-del" title="Delete" onClick={()=>deleteDeliverable(d)}>✕</button>
               </div>
             ))}
           </div>
+          <AddDeliverableRow phaseColor={pc} onAdd={addDeliverable}/>
 
-          <div className="plc-section-title">Phase Notes</div>
-          <textarea className="plc-note-area"
+          {/* NOTES */}
+          <div className="section-title">Phase Notes</div>
+          <textarea className="note-area"
             placeholder={`Add notes for the ${phase.label} phase…`}
             value={notes[phase.id]||""}
-            onChange={e => setNotes(prev=>({...prev,[phase.id]:e.target.value}))}/>
+            onChange={e=>setNotes(prev=>({...prev,[phase.id]:e.target.value}))}/>
         </div>
 
         {/* SIDEBAR */}
         <div className="plc-sidebar">
-          <div className="plc-sidebar-section">
-            <div className="plc-section-title">Phase Progress</div>
-            {phases.map(p => {
-              const pct = p.tasks.length ? Math.round(p.tasks.filter(t=>t.done).length/p.tasks.length*100) : 0;
+          <div className="sidebar-section">
+            <div className="section-title">Phase Progress</div>
+            {phases.map(p=>{
+              const pct=phasePct(p);
               return (
-                <div key={p.id} className="plc-progress-bar-wrap">
-                  <div className="plc-progress-bar-label">
-                    <span style={{color:p.id===phase.id?p.color:undefined}}>{p.label}</span>
+                <div key={p.id} className="progress-bar-wrap">
+                  <div className="progress-bar-label">
+                    <span style={{color:p.id===phase.id?p.color:undefined,cursor:"pointer"}}
+                      onClick={()=>setActivePhase(phases.indexOf(p))}>{p.label}</span>
                     <span>{pct}%</span>
                   </div>
-                  <div className="plc-progress-bar-track">
-                    <div className="plc-progress-bar-fill" style={{width:`${pct}%`,background:p.color}}/>
+                  <div className="progress-bar-track">
+                    <div className="progress-bar-fill" style={{width:`${pct}%`,background:p.color}}/>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          <div className="plc-sidebar-section">
-            <div className="plc-section-title">Key Metrics to Track</div>
-            <div className="plc-metrics">
-              {phase.metrics.map(m => (
-                <div key={m} className="plc-metric">
-                  <div className="plc-metric-dot" style={{background:phaseColor}}/>
-                  <div className="plc-metric-label">{m}</div>
+          <div className="sidebar-section">
+            <div className="section-title">Key Metrics</div>
+            <div className="metrics-list">
+              {phase.metrics.map(m=>(
+                <div key={m} className="metric-item">
+                  <div className="metric-dot" style={{background:pc}}/>
+                  <div className="metric-label">{m}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="plc-sidebar-section">
-            <div className="plc-section-title">Stakeholders in Phase</div>
-            <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-              {(phase.stakeholders.includes("all")?STAKEHOLDERS.filter(s=>s.id!=="all"):STAKEHOLDERS.filter(s=>phase.stakeholders.includes(s.id))).map(s => (
-                <div key={s.id} style={{padding:"4px 10px",borderRadius:20,fontSize:11,background:"rgba(255,255,255,0.04)",border:`1px solid ${s.color}40`,color:s.color,display:"flex",alignItems:"center",gap:5}}>
+          <div className="sidebar-section">
+            <div className="section-title">Stakeholders in Phase</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
+              {(phase.stakeholders.includes("all")?STAKEHOLDERS.filter(s=>s.id!=="all"):STAKEHOLDERS.filter(s=>phase.stakeholders.includes(s.id))).map(s=>(
+                <div key={s.id} style={{padding:"3px 9px",borderRadius:20,fontSize:11,background:"rgba(255,255,255,0.04)",border:`1px solid ${s.color}40`,color:s.color,display:"flex",alignItems:"center",gap:4}}>
                   <span>{s.icon}</span>{s.label}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="plc-sidebar-section">
-            <div className="plc-section-title">AI Phase Assistant</div>
-            <div className="plc-ai-panel">
-              <div className="plc-ai-header">
-                <div className="plc-ai-pulse"/>
-                Trajectory AI · {phase.label}
+          {/* EXPORT SHORTCUT */}
+          <div className="sidebar-section">
+            <div className="section-title">Export</div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+              <button className="btn-ghost" style={{fontSize:12,padding:"9px 8px",textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center",gap:4}}
+                onClick={()=>{exportToPDF(phases,productName,"all",activePhase);}}>
+                <span style={{fontSize:18}}>📄</span>
+                <span>PDF</span>
+                <span style={{fontSize:9,color:"var(--text3)"}}>Full report</span>
+              </button>
+              <button className="btn-ghost" style={{fontSize:12,padding:"9px 8px",textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center",gap:4}}
+                onClick={()=>{exportToExcel(phases,productName,"all",activePhase);}}>
+                <span style={{fontSize:18}}>📊</span>
+                <span>Excel</span>
+                <span style={{fontSize:9,color:"var(--text3)"}}>All phases</span>
+              </button>
+            </div>
+          </div>
+
+          {/* AI */}
+          <div className="sidebar-section">
+            <div className="section-title">AI Phase Assistant</div>
+            <div className="ai-panel">
+              <div className="ai-header">
+                <div className="ai-pulse"/><span>Trajectory AI · {phase.label}</span>
               </div>
-              <div className="plc-ai-messages" ref={aiRef}>
-                {currentChat.length === 0 && (
-                  <div style={{color:"#5a6270",fontSize:12,fontStyle:"italic"}}>
-                    Ask about {phase.label} — tasks, deliverables, strategy, templates…
+              <div className="ai-messages" ref={aiRef}>
+                {chat.length===0&&(
+                  <div style={{color:"var(--text3)",fontSize:11.5,fontStyle:"italic"}}>
+                    Ask about {phase.label} — tasks, deliverables, strategy…
                   </div>
                 )}
-                {currentChat.map((msg,i) => (
-                  <div key={i} className="plc-ai-msg" style={{color:msg.role==="user"?"#8b96aa":msg.role==="loading"?"#5a6270":"#e8ecf4"}}>
-                    <span style={{color:msg.role==="user"?"#f0c040":msg.role==="loading"?"#5a6270":"#60a5fa",fontWeight:600}}>
-                      {msg.role==="user"?"You: ":msg.role==="loading"?"⏳ ":"⚡ AI: "}
-                    </span>{msg.text}
+                {chat.map((m,i)=>(
+                  <div key={i} className="ai-msg" style={{color:m.role==="user"?"#8b96aa":m.role==="loading"?"#5a6270":"#e8ecf4"}}>
+                    <span style={{color:m.role==="user"?"#f0c040":m.role==="loading"?"#5a6270":"#60a5fa",fontWeight:600}}>
+                      {m.role==="user"?"You: ":m.role==="loading"?"⏳ ":"⚡ AI: "}
+                    </span>{m.text}
                   </div>
                 ))}
               </div>
-              <div className="plc-ai-input-row">
-                <textarea className="plc-ai-input" rows={2}
-                  placeholder={apiKey!=="SKIP"?`Ask about ${phase.label}…`:"Add API key to enable AI…"}
+              <div className="ai-input-row">
+                <textarea className="ai-input" rows={2}
+                  placeholder={apiKey!=="SKIP"?`Ask about ${phase.label}…`:"Add API key to enable…"}
                   disabled={apiKey==="SKIP"}
-                  value={aiInput}
-                  onChange={e=>setAiInput(e.target.value)}
+                  value={aiInput} onChange={e=>setAiInput(e.target.value)}
                   onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendAI();}}}/>
-                <button className="plc-ai-send" onClick={sendAI}
+                <button className="ai-send" onClick={sendAI}
                   disabled={aiLoading||!aiInput.trim()||apiKey==="SKIP"}>↑</button>
               </div>
             </div>
@@ -768,22 +1015,21 @@ function App() {
       </div>
 
       {/* FOOTER */}
-      <div className="plc-overall">
-        <div className="plc-overall-title">Overall</div>
-        {phases.map((p,i) => {
-          const pct = p.tasks.length?Math.round(p.tasks.filter(t=>t.done).length/p.tasks.length*100):0;
-          const isDone=pct===100; const isActive=i===activePhase;
+      <div className="plc-footer">
+        <div className="footer-title">Overall</div>
+        {phases.map((p,i)=>{
+          const pct=phasePct(p); const isDone=pct===100; const isActive=i===activePhase;
           return (
-            <div key={p.id} className="plc-phase-dot" onClick={()=>setActivePhase(i)}>
-              <div className="plc-phase-dot-circle" style={{borderColor:p.color,background:isDone||isActive?p.color:"transparent",boxShadow:isActive?`0 0 8px ${p.color}`:undefined}}/>
-              <div className="plc-phase-dot-label" style={{color:isActive?p.color:undefined}}>{p.label}</div>
+            <div key={p.id} className="phase-dot" onClick={()=>setActivePhase(i)}>
+              <div className="phase-dot-circle" style={{borderColor:p.color,background:isDone||isActive?p.color:"transparent",boxShadow:isActive?`0 0 7px ${p.color}`:undefined}}/>
+              <div className="phase-dot-label" style={{color:isActive?p.color:undefined}}>{p.label}</div>
             </div>
           );
         })}
-        <div className="plc-overall-bar">
+        <div className="overall-bar">
           <div style={{height:"100%",width:`${totalPct}%`,background:"linear-gradient(90deg,#f0c040,#fb923c)",borderRadius:2,transition:"width 0.4s"}}/>
         </div>
-        <div className="plc-overall-pct">{totalPct}% Done</div>
+        <div className="overall-pct">{totalPct}% Done</div>
       </div>
     </div>
   );
