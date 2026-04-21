@@ -261,7 +261,27 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   .plc-header{padding:11px 14px}
   .plc-content{padding:14px;max-height:none}
   .plc-product-input{width:120px}
+  .mobile-ai-panel{display:block}
 }
+.mobile-ai-panel{display:none;margin-bottom:20px}
+.mobile-ai-toggle{
+  width:100%;padding:12px 16px;border-radius:var(--r);
+  background:linear-gradient(135deg,rgba(240,192,64,0.08),rgba(251,146,60,0.06));
+  border:1px solid rgba(240,192,64,0.25);
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:all 0.2s;
+}
+.mobile-ai-toggle:hover{background:rgba(240,192,64,0.12)}
+.mobile-ai-toggle-left{display:flex;align-items:center;gap:10px}
+.mobile-ai-toggle-title{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--gold)}
+.mobile-ai-toggle-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.mobile-ai-body{
+  border:1px solid rgba(240,192,64,0.2);border-top:none;
+  border-radius:0 0 var(--r) var(--r);
+  background:var(--bg3);overflow:hidden;
+}
+.mobile-ai-chevron{color:var(--gold);font-size:14px;transition:transform 0.25s;flex-shrink:0}
+.mobile-ai-chevron.open{transform:rotate(180deg)}
 </style>
 </head>
 <body>
@@ -1028,6 +1048,7 @@ function App() {
   useEffect(()=>{ try{ localStorage.setItem("trajectory_rice", JSON.stringify(riceData));  }catch(e){} },[riceData]);
   useEffect(()=>{ try{ localStorage.setItem("trajectory_aarrr",JSON.stringify(aarrrData)); }catch(e){} },[aarrrData]);
   const [aiChats,setAiChats]       = useState({});
+  const [mobileAiOpen, setMobileAiOpen] = useState(false);
   const [aiInput,setAiInput]       = useState("");
   const [aiLoading,setAiLoading]   = useState(false);
   const [showExport,setShowExport] = useState(false);
@@ -1261,6 +1282,47 @@ function App() {
           {(phase.id==="gtm"||phase.id==="postrelease")&&(
             <Aarrr data={aarrrData} onChange={setAarrrData}/>
           )}
+
+          {/* MOBILE AI PANEL */}
+          <div className="mobile-ai-panel">
+            <div className="mobile-ai-toggle" onClick={()=>setMobileAiOpen(o=>!o)}>
+              <div className="mobile-ai-toggle-left">
+                <div className="ai-pulse" style={{width:8,height:8,flexShrink:0}}/>
+                <div>
+                  <div className="mobile-ai-toggle-title">⚡ AI Phase Assistant — {phase.label}</div>
+                  <div className="mobile-ai-toggle-sub">{apiKey&&apiKey!=="SKIP"?"Tap to ask Claude anything about this phase":"Add API key to enable AI chat"}</div>
+                </div>
+              </div>
+              <div className={`mobile-ai-chevron ${mobileAiOpen?"open":""}`}>▼</div>
+            </div>
+            {mobileAiOpen&&(
+              <div className="mobile-ai-body">
+                <div className="ai-messages" ref={aiRef} style={{maxHeight:240}}>
+                  {chat.length===0&&(
+                    <div style={{color:"var(--text3)",fontSize:12,fontStyle:"italic"}}>
+                      Ask about {phase.label} — tasks, deliverables, strategy, templates…
+                    </div>
+                  )}
+                  {chat.map((m,i)=>(
+                    <div key={i} className="ai-msg" style={{color:m.role==="user"?"#8b96aa":m.role==="loading"?"#5a6270":"#e8ecf4"}}>
+                      <span style={{color:m.role==="user"?"#f0c040":m.role==="loading"?"#5a6270":"#60a5fa",fontWeight:600}}>
+                        {m.role==="user"?"You: ":m.role==="loading"?"⏳ ":"⚡ AI: "}
+                      </span>{m.text}
+                    </div>
+                  ))}
+                </div>
+                <div className="ai-input-row">
+                  <textarea className="ai-input" rows={2}
+                    placeholder={apiKey&&apiKey!=="SKIP"?`Ask about ${phase.label}…`:"Add API key to enable AI…"}
+                    disabled={!apiKey||apiKey==="SKIP"}
+                    value={aiInput} onChange={e=>setAiInput(e.target.value)}
+                    onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendAI();}}}/>
+                  <button className="ai-send" onClick={sendAI}
+                    disabled={aiLoading||!aiInput.trim()||!apiKey||apiKey==="SKIP"}>↑</button>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* NOTES */}
           <div className="section-title">Phase Notes</div>
