@@ -198,6 +198,63 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .overall-bar{flex:1;height:3px;background:var(--bg4);border-radius:2px;min-width:50px}
 .overall-pct{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--gold);white-space:nowrap}
 
+/* ── FRAMEWORK PANELS ── */
+.fw-panel{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:18px;margin-bottom:24px}
+.fw-panel-title{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.fw-panel-sub{font-size:11px;color:var(--text3);margin-bottom:16px;line-height:1.5}
+/* TAM/SAM/SOM */
+.tsm-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.tsm-card{background:var(--bg4);border-radius:8px;padding:12px;border:1px solid var(--border)}
+.tsm-card-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.tsm-card input{width:100%;background:var(--bg5);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 8px;outline:none;margin-bottom:4px}
+.tsm-card input:focus{border-color:var(--gold)}
+.tsm-card textarea{width:100%;background:var(--bg5);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:11px;padding:5px 8px;outline:none;resize:none;min-height:44px;line-height:1.5}
+.tsm-card textarea:focus{border-color:var(--gold)}
+.tsm-value{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;margin-top:4px}
+.tsm-bar-wrap{margin-top:10px}
+.tsm-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:11px}
+.tsm-bar-label{width:32px;font-weight:700;flex-shrink:0}
+.tsm-bar-track{flex:1;height:8px;background:var(--bg5);border-radius:4px;overflow:hidden}
+.tsm-bar-fill{height:100%;border-radius:4px;transition:width 0.5s}
+.tsm-bar-pct{width:36px;text-align:right;color:var(--text2);flex-shrink:0}
+/* MoSCoW */
+.moscow-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.moscow-col{background:var(--bg4);border-radius:8px;padding:12px;border:1px solid var(--border)}
+.moscow-col-header{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.moscow-col-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.moscow-col-title{font-family:'Syne',sans-serif;font-weight:700;font-size:12px}
+.moscow-col-sub{font-size:9px;color:var(--text3);margin-left:auto}
+.moscow-items{display:flex;flex-direction:column;gap:5px;min-height:40px;margin-bottom:8px}
+.moscow-item{background:var(--bg5);border-radius:5px;padding:6px 9px;font-size:12px;display:flex;align-items:center;gap:6px;border:1px solid var(--border)}
+.moscow-item-del{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;opacity:0;transition:opacity 0.15s;padding:0}
+.moscow-item:hover .moscow-item-del{opacity:1}
+.moscow-item-del:hover{color:#f87171}
+.moscow-add{width:100%;background:transparent;border:1px dashed var(--border2);border-radius:5px;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:11px;padding:5px 8px;outline:none;cursor:text;transition:all 0.15s}
+.moscow-add:focus{border-color:rgba(240,192,64,0.4);color:var(--text);background:var(--bg5)}
+/* RICE */
+.rice-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px}
+.rice-table th{text-align:left;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);padding:0 8px 8px;border-bottom:1px solid var(--border)}
+.rice-table td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.rice-table tr:last-child td{border-bottom:none}
+.rice-table input{background:var(--bg5);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:11px;padding:3px 6px;outline:none;width:52px;text-align:center}
+.rice-table input:focus{border-color:var(--gold)}
+.rice-score{font-family:'Syne',sans-serif;font-weight:800;font-size:13px}
+.rice-badge{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.rice-add-row{display:flex;gap:7px;margin-top:8px}
+.rice-add-row input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:6px 10px;outline:none}
+.rice-add-row input:focus{border-color:rgba(240,192,64,0.4)}
+/* AARRR */
+.aarrr-grid{display:flex;flex-direction:column;gap:8px}
+.aarrr-row{background:var(--bg4);border-radius:8px;padding:12px;border:1px solid var(--border);display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:12px}
+.aarrr-label{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;display:flex;flex-direction:column;gap:2px}
+.aarrr-label span{font-size:9px;color:var(--text3);font-family:'DM Sans',sans-serif;font-weight:400}
+.aarrr-inputs{display:flex;gap:8px;align-items:center}
+.aarrr-input-group{display:flex;flex-direction:column;gap:3px;flex:1}
+.aarrr-input-label{font-size:9px;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase}
+.aarrr-input{background:var(--bg5);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 8px;outline:none;width:100%}
+.aarrr-input:focus{border-color:var(--gold)}
+.aarrr-rate{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;min-width:52px;text-align:right}
+.aarrr-bar{height:3px;border-radius:2px;margin-top:6px;transition:width 0.5s}
 @media(max-width:768px){
   .plc-main{grid-template-columns:1fr}
   .plc-sidebar{display:none}
@@ -689,6 +746,238 @@ function AddDeliverableRow({phaseColor, onAdd}) {
   );
 }
 
+// ── FRAMEWORK: TAM / SAM / SOM ───────────────────────────────────────────────
+function TamSamSom({data, onChange}) {
+  const fmt = v => {
+    const n = parseFloat(v)||0;
+    if(n>=1e9) return "$"+(n/1e9).toFixed(1)+"B";
+    if(n>=1e6) return "$"+(n/1e6).toFixed(1)+"M";
+    if(n>=1e3) return "$"+(n/1e3).toFixed(1)+"K";
+    return n?"$"+n:"—";
+  };
+  const tam=parseFloat(data.tam)||0, sam=parseFloat(data.sam)||0, som=parseFloat(data.som)||0;
+  const maxVal=Math.max(tam,1);
+  const bars=[
+    {key:"TAM",label:"TAM",sub:"Total Addressable Market",val:tam,color:"#60a5fa",pct:100},
+    {key:"SAM",label:"SAM",sub:"Serviceable Addressable Market",val:sam,color:"#a78bfa",pct:Math.round(sam/maxVal*100)},
+    {key:"SOM",label:"SOM",sub:"Serviceable Obtainable Market",val:som,color:"#f0c040",pct:Math.round(som/maxVal*100)},
+  ];
+  return (
+    <div className="fw-panel">
+      <div className="fw-panel-title"><span>📊</span> Market Sizing — TAM / SAM / SOM</div>
+      <div className="fw-panel-sub">Quantify your market opportunity. TAM = total universe, SAM = segment you can serve, SOM = realistic capture target.</div>
+      <div className="tsm-grid">
+        {bars.map(b=>(
+          <div className="tsm-card" key={b.key} style={{borderColor:`${b.color}30`}}>
+            <div className="tsm-card-label" style={{color:b.color}}>{b.label}</div>
+            <div style={{fontSize:9,color:"var(--text3)",marginBottom:6}}>{b.sub}</div>
+            <input placeholder="Value in $" value={data[b.key.toLowerCase()]||""}
+              onChange={e=>onChange({...data,[b.key.toLowerCase()]:e.target.value})}/>
+            <textarea placeholder="Assumptions…" value={data[b.key.toLowerCase()+"_note"]||""}
+              onChange={e=>onChange({...data,[b.key.toLowerCase()+"_note"]:e.target.value})} rows={2}/>
+            <div className="tsm-value" style={{color:b.color}}>{fmt(data[b.key.toLowerCase()])}</div>
+          </div>
+        ))}
+      </div>
+      <div className="tsm-bar-wrap">
+        {bars.map(b=>(
+          <div className="tsm-bar-row" key={b.key}>
+            <div className="tsm-bar-label" style={{color:b.color}}>{b.label}</div>
+            <div className="tsm-bar-track">
+              <div className="tsm-bar-fill" style={{width:`${b.pct}%`,background:b.color}}/>
+            </div>
+            <div className="tsm-bar-pct">{fmt(data[b.key.toLowerCase()])}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── FRAMEWORK: MoSCoW ────────────────────────────────────────────────────────
+const MOSCOW_CATS = [
+  {key:"must",label:"Must Have",sub:"Non-negotiable",color:"#f87171",dot:"#f87171"},
+  {key:"should",label:"Should Have",sub:"Important",color:"#fb923c",dot:"#fb923c"},
+  {key:"could",label:"Could Have",sub:"Nice-to-have",color:"#60a5fa",dot:"#60a5fa"},
+  {key:"wont",label:"Won't Have",sub:"Out of scope",color:"#5a6270",dot:"#5a6270"},
+];
+function Moscow({data, onChange}) {
+  const [drafts,setDrafts]=useState({must:"",should:"",could:"",wont:""});
+  function addItem(cat,text){
+    if(!text.trim()) return;
+    onChange({...data,[cat]:[...(data[cat]||[]),{id:uid(),text:text.trim()}]});
+    setDrafts(d=>({...d,[cat]:""}));
+  }
+  function delItem(cat,id){
+    onChange({...data,[cat]:(data[cat]||[]).filter(x=>x.id!==id)});
+  }
+  return (
+    <div className="fw-panel">
+      <div className="fw-panel-title"><span>🗂️</span> MoSCoW Prioritisation</div>
+      <div className="fw-panel-sub">Categorise features by priority. Type a feature and press Enter to add it to any column.</div>
+      <div className="moscow-grid">
+        {MOSCOW_CATS.map(cat=>(
+          <div className="moscow-col" key={cat.key} style={{borderColor:`${cat.color}25`}}>
+            <div className="moscow-col-header">
+              <div className="moscow-col-dot" style={{background:cat.color}}/>
+              <div className="moscow-col-title" style={{color:cat.color}}>{cat.label}</div>
+              <div className="moscow-col-sub">{(data[cat.key]||[]).length}</div>
+            </div>
+            <div className="moscow-items">
+              {(data[cat.key]||[]).map(item=>(
+                <div key={item.id} className="moscow-item">
+                  <div style={{width:5,height:5,borderRadius:"50%",background:cat.color,flexShrink:0}}/>
+                  <span style={{fontSize:12,flex:1}}>{item.text}</span>
+                  <button className="moscow-item-del" onClick={()=>delItem(cat.key,item.id)}>✕</button>
+                </div>
+              ))}
+            </div>
+            <input className="moscow-add" placeholder="+ Add feature…"
+              value={drafts[cat.key]}
+              onChange={e=>setDrafts(d=>({...d,[cat.key]:e.target.value}))}
+              onKeyDown={e=>e.key==="Enter"&&addItem(cat.key,drafts[cat.key])}/>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── FRAMEWORK: RICE ──────────────────────────────────────────────────────────
+function Rice({data, onChange}) {
+  const [newName,setNewName]=useState("");
+  const items=data.items||[];
+  function calcScore(r){
+    const rc=parseFloat(r.reach)||0,im=parseFloat(r.impact)||0,co=parseFloat(r.confidence)||0,ef=parseFloat(r.effort)||1;
+    return ef>0?Math.round(rc*im*(co/100)/ef):0;
+  }
+  function addItem(){
+    if(!newName.trim()) return;
+    onChange({...data,items:[...items,{id:uid(),name:newName.trim(),reach:"",impact:"",confidence:"",effort:""}]});
+    setNewName("");
+  }
+  function updateItem(id,field,val){
+    onChange({...data,items:items.map(x=>x.id===id?{...x,[field]:val}:x)});
+  }
+  function delItem(id){ onChange({...data,items:items.filter(x=>x.id!==id)}); }
+  const sorted=[...items].sort((a,b)=>calcScore(b)-calcScore(a));
+  const maxScore=Math.max(...sorted.map(calcScore),1);
+  const badge=s=>{
+    if(s>=100) return {bg:"rgba(52,211,153,0.15)",color:"#34d399",label:"High"};
+    if(s>=40)  return {bg:"rgba(251,146,60,0.15)", color:"#fb923c",label:"Med"};
+    return           {bg:"rgba(100,116,139,0.15)",color:"#94a3b8",label:"Low"};
+  };
+  return (
+    <div className="fw-panel">
+      <div className="fw-panel-title"><span>⚖️</span> RICE Prioritisation</div>
+      <div className="fw-panel-sub">Score = (Reach × Impact × Confidence%) ÷ Effort. Higher score = higher priority. Rows auto-sort by score.</div>
+      <div style={{overflowX:"auto"}}>
+        <table className="rice-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th title="Users/month">Reach</th>
+              <th title="1–3 scale">Impact</th>
+              <th title="0–100%">Conf %</th>
+              <th title="Person-months">Effort</th>
+              <th>Score</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.length===0&&(
+              <tr><td colSpan={7} style={{color:"var(--text3)",textAlign:"center",padding:"14px",fontStyle:"italic"}}>Add features below to score them</td></tr>
+            )}
+            {sorted.map(r=>{
+              const sc=calcScore(r); const b=badge(sc);
+              return (
+                <tr key={r.id}>
+                  <td style={{minWidth:120,fontWeight:500}}>{r.name}</td>
+                  {["reach","impact","confidence","effort"].map(f=>(
+                    <td key={f}><input value={r[f]} onChange={e=>updateItem(r.id,f,e.target.value)} placeholder="—"/></td>
+                  ))}
+                  <td>
+                    <div style={{display:"flex",alignItems:"center",gap:6}}>
+                      <span className="rice-score" style={{color:b.color}}>{sc||"—"}</span>
+                      {sc>0&&<span className="rice-badge" style={{background:b.bg,color:b.color}}>{b.label}</span>}
+                    </div>
+                    {sc>0&&<div style={{height:3,background:`${b.color}30`,borderRadius:2,marginTop:4}}>
+                      <div style={{height:"100%",width:`${Math.round(sc/maxScore*100)}%`,background:b.color,borderRadius:2,transition:"width 0.4s"}}/>
+                    </div>}
+                  </td>
+                  <td><button style={{background:"none",border:"none",color:"var(--text3)",cursor:"pointer",fontSize:13}} onClick={()=>delItem(r.id)}>✕</button></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="rice-add-row">
+        <input placeholder="Feature name…" value={newName} onChange={e=>setNewName(e.target.value)}
+          onKeyDown={e=>e.key==="Enter"&&addItem()}/>
+        <button className="btn-gold" style={{padding:"6px 14px",fontSize:12}} onClick={addItem}>+ Add</button>
+      </div>
+    </div>
+  );
+}
+
+// ── FRAMEWORK: AARRR ─────────────────────────────────────────────────────────
+const AARRR_META = [
+  {key:"acquisition",label:"Acquisition",letter:"A",sub:"How users find you",metric:"Visitors",goal:"Goal",color:"#60a5fa"},
+  {key:"activation", label:"Activation", letter:"A",sub:"First value moment",  metric:"Activated",goal:"Goal",color:"#a78bfa"},
+  {key:"retention",  label:"Retention",  letter:"R",sub:"Users coming back",   metric:"Retained", goal:"Goal",color:"#f472b6"},
+  {key:"referral",   label:"Referral",   letter:"R",sub:"Users inviting others",metric:"Referrals",goal:"Goal",color:"#fb923c"},
+  {key:"revenue",    label:"Revenue",    letter:"R",sub:"Monetisation",         metric:"Revenue $",goal:"Goal $",color:"#34d399"},
+];
+function Aarrr({data,onChange}) {
+  function upd(key,field,val){ onChange({...data,[key]:{...(data[key]||{}),[field]:val}}); }
+  return (
+    <div className="fw-panel">
+      <div className="fw-panel-title"><span>📈</span> AARRR Pirate Metrics</div>
+      <div className="fw-panel-sub">Track your growth funnel. Enter actuals and goals to see conversion at each stage. Revenue is the ultimate proof.</div>
+      <div className="aarrr-grid">
+        {AARRR_META.map(m=>{
+          const d=data[m.key]||{};
+          const actual=parseFloat(d.actual)||0, goal=parseFloat(d.goal)||0;
+          const rate=goal>0?Math.min(Math.round(actual/goal*100),999):0;
+          const prev=AARRR_META[AARRR_META.indexOf(m)-1];
+          const prevActual=prev?(parseFloat((data[prev.key]||{}).actual)||0):actual;
+          const conv=prev&&prevActual>0?Math.round(actual/prevActual*100):null;
+          return (
+            <div className="aarrr-row" key={m.key} style={{borderColor:`${m.color}20`}}>
+              <div className="aarrr-label">
+                <span style={{color:m.color}}>{m.letter} — {m.label}</span>
+                <span>{m.sub}</span>
+                {conv!==null&&<span style={{color:m.color,fontSize:10,fontWeight:600}}>↓ {conv}% from prev</span>}
+              </div>
+              <div className="aarrr-inputs">
+                <div className="aarrr-input-group">
+                  <div className="aarrr-input-label">Actual</div>
+                  <input className="aarrr-input" placeholder="0" value={d.actual||""}
+                    onChange={e=>upd(m.key,"actual",e.target.value)}/>
+                </div>
+                <div className="aarrr-input-group">
+                  <div className="aarrr-input-label">Goal</div>
+                  <input className="aarrr-input" placeholder="0" value={d.goal||""}
+                    onChange={e=>upd(m.key,"goal",e.target.value)}/>
+                </div>
+              </div>
+              <div>
+                <div className="aarrr-rate" style={{color:rate>=80?"#34d399":rate>=50?"#fb923c":"#f87171"}}>
+                  {goal>0?rate+"%":"—"}
+                </div>
+                {goal>0&&<div style={{height:3,background:"var(--bg5)",borderRadius:2,marginTop:4,width:52}}>
+                  <div style={{height:"100%",width:`${Math.min(rate,100)}%`,background:m.color,borderRadius:2,transition:"width 0.5s"}}/>
+                </div>}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ── MAIN APP ─────────────────────────────────────────────────────────────────
 function App() {
   const [apiKey,setApiKey]         = useState(()=>localStorage.getItem("trajectory_apikey")||null);
@@ -728,6 +1017,16 @@ function App() {
   useEffect(()=>{ try{ localStorage.setItem("trajectory_notes",JSON.stringify(notes)); }catch(e){} },[notes]);
   useEffect(()=>{ try{ localStorage.setItem("trajectory_activePhase",String(activePhase)); }catch(e){} },[activePhase]);
   // ──────────────────────────────────────────────────────────────────────────
+  // ── FRAMEWORK STATE ────────────────────────────────────────────────────────
+  const [tamData,  setTamData]   = useState(()=>{ try{ const s=localStorage.getItem("trajectory_tam");  return s?JSON.parse(s):{};  }catch(e){ return {}; }});
+  const [moscowData,setMoscowData]=useState(()=>{ try{ const s=localStorage.getItem("trajectory_moscow");return s?JSON.parse(s):{};  }catch(e){ return {}; }});
+  const [riceData, setRiceData]  = useState(()=>{ try{ const s=localStorage.getItem("trajectory_rice"); return s?JSON.parse(s):{items:[]};  }catch(e){ return {items:[]}; }});
+  const [aarrrData,setAarrrData] = useState(()=>{ try{ const s=localStorage.getItem("trajectory_aarrr");return s?JSON.parse(s):{};  }catch(e){ return {}; }});
+
+  useEffect(()=>{ try{ localStorage.setItem("trajectory_tam",  JSON.stringify(tamData));   }catch(e){} },[tamData]);
+  useEffect(()=>{ try{ localStorage.setItem("trajectory_moscow",JSON.stringify(moscowData));}catch(e){} },[moscowData]);
+  useEffect(()=>{ try{ localStorage.setItem("trajectory_rice", JSON.stringify(riceData));  }catch(e){} },[riceData]);
+  useEffect(()=>{ try{ localStorage.setItem("trajectory_aarrr",JSON.stringify(aarrrData)); }catch(e){} },[aarrrData]);
   const [aiChats,setAiChats]       = useState({});
   const [aiInput,setAiInput]       = useState("");
   const [aiLoading,setAiLoading]   = useState(false);
@@ -844,9 +1143,10 @@ function App() {
           </button>
           <button className="hdr-btn" title="Reset all progress & data" onClick={()=>{
             if(window.confirm("Reset all progress, tasks and notes? This cannot be undone.")){
-              ["trajectory_phases","trajectory_productName","trajectory_notes","trajectory_activePhase"].forEach(k=>localStorage.removeItem(k));
+              ["trajectory_phases","trajectory_productName","trajectory_notes","trajectory_activePhase","trajectory_tam","trajectory_moscow","trajectory_rice","trajectory_aarrr"].forEach(k=>localStorage.removeItem(k));
               setPhases(INIT_PHASES.map(p=>({...p,tasks:p.tasks.map(t=>({...t})),deliverables:[...p.deliverables]})));
               setProductName("My Product"); setNotes({}); setActivePhase(0);
+              setTamData({}); setMoscowData({}); setRiceData({items:[]}); setAarrrData({});
             }
           }}>↺ Reset</button>
           <button className="hdr-btn" onClick={()=>{localStorage.removeItem("trajectory_apikey");setApiKey(null);}}>
@@ -947,6 +1247,20 @@ function App() {
             ))}
           </div>
           <AddDeliverableRow phaseColor={pc} onAdd={addDeliverable}/>
+
+          {/* FRAMEWORK PANELS */}
+          {phase.id==="research"&&(
+            <TamSamSom data={tamData} onChange={setTamData}/>
+          )}
+          {(phase.id==="design"||phase.id==="postrelease")&&(
+            <Moscow data={moscowData} onChange={setMoscowData}/>
+          )}
+          {(phase.id==="design"||phase.id==="postrelease")&&(
+            <Rice data={riceData} onChange={setRiceData}/>
+          )}
+          {(phase.id==="gtm"||phase.id==="postrelease")&&(
+            <Aarrr data={aarrrData} onChange={setAarrrData}/>
+          )}
 
           {/* NOTES */}
           <div className="section-title">Phase Notes</div>
