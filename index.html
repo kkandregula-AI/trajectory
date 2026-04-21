@@ -263,7 +263,28 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   .plc-product-input{width:120px}
   .mobile-ai-panel{display:block}
 }
-.mobile-ai-panel{display:none;margin-bottom:20px}
+.mobile-dash-panel{display:none;margin-bottom:20px}
+.mobile-dash-toggle{
+  width:100%;padding:12px 16px;border-radius:var(--r);
+  background:var(--bg3);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:all 0.2s;
+}
+.mobile-dash-toggle:hover{background:var(--bg4)}
+.mobile-dash-toggle-left{display:flex;align-items:center;gap:10px}
+.mobile-dash-toggle-title{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--text)}
+.mobile-dash-toggle-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.mobile-dash-chevron{color:var(--text3);font-size:14px;transition:transform 0.25s;flex-shrink:0}
+.mobile-dash-chevron.open{transform:rotate(180deg)}
+.mobile-dash-body{
+  border:1px solid var(--border2);border-top:none;
+  border-radius:0 0 var(--r) var(--r);
+  background:var(--bg3);padding:16px;
+}
+.mobile-export-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+@media(max-width:768px){
+  .mobile-dash-panel{display:block}
+}
 .mobile-ai-toggle{
   width:100%;padding:12px 16px;border-radius:var(--r);
   background:linear-gradient(135deg,rgba(240,192,64,0.08),rgba(251,146,60,0.06));
@@ -1048,7 +1069,8 @@ function App() {
   useEffect(()=>{ try{ localStorage.setItem("trajectory_rice", JSON.stringify(riceData));  }catch(e){} },[riceData]);
   useEffect(()=>{ try{ localStorage.setItem("trajectory_aarrr",JSON.stringify(aarrrData)); }catch(e){} },[aarrrData]);
   const [aiChats,setAiChats]       = useState({});
-  const [mobileAiOpen, setMobileAiOpen] = useState(false);
+  const [mobileAiOpen,  setMobileAiOpen]   = useState(false);
+  const [mobileDashOpen, setMobileDashOpen] = useState(false);
   const [aiInput,setAiInput]       = useState("");
   const [aiLoading,setAiLoading]   = useState(false);
   const [showExport,setShowExport] = useState(false);
@@ -1282,6 +1304,81 @@ function App() {
           {(phase.id==="gtm"||phase.id==="postrelease")&&(
             <Aarrr data={aarrrData} onChange={setAarrrData}/>
           )}
+
+          {/* MOBILE DASHBOARD PANEL */}
+          <div className="mobile-dash-panel">
+            <div className="mobile-dash-toggle" onClick={()=>setMobileDashOpen(o=>!o)}>
+              <div className="mobile-dash-toggle-left">
+                <span style={{fontSize:18}}>📊</span>
+                <div>
+                  <div className="mobile-dash-toggle-title">Dashboard — {totalPct}% Overall</div>
+                  <div className="mobile-dash-toggle-sub">Phase progress · metrics · stakeholders · export</div>
+                </div>
+              </div>
+              <div className={`mobile-dash-chevron ${mobileDashOpen?"open":""}`}>▼</div>
+            </div>
+            {mobileDashOpen&&(
+              <div className="mobile-dash-body">
+
+                {/* Phase Progress */}
+                <div className="section-title" style={{marginBottom:10}}>Phase Progress</div>
+                {phases.map(p=>{
+                  const pct=phasePct(p);
+                  return (
+                    <div key={p.id} className="progress-bar-wrap">
+                      <div className="progress-bar-label">
+                        <span style={{color:p.id===phase.id?p.color:undefined,cursor:"pointer"}}
+                          onClick={()=>{setActivePhase(phases.indexOf(p));setMobileDashOpen(false);}}>{p.label}</span>
+                        <span>{pct}%</span>
+                      </div>
+                      <div className="progress-bar-track">
+                        <div className="progress-bar-fill" style={{width:`${pct}%`,background:p.color}}/>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Key Metrics */}
+                <div className="section-title" style={{marginTop:16,marginBottom:10}}>Key Metrics — {phase.label}</div>
+                <div className="metrics-list">
+                  {phase.metrics.map(m=>(
+                    <div key={m} className="metric-item">
+                      <div className="metric-dot" style={{background:pc}}/>
+                      <div className="metric-label">{m}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Stakeholders */}
+                <div className="section-title" style={{marginTop:16,marginBottom:10}}>Stakeholders in Phase</div>
+                <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                  {(phase.stakeholders.includes("all")?STAKEHOLDERS.filter(s=>s.id!=="all"):STAKEHOLDERS.filter(s=>phase.stakeholders.includes(s.id))).map(s=>(
+                    <div key={s.id} style={{padding:"4px 10px",borderRadius:20,fontSize:11,background:"rgba(255,255,255,0.04)",border:`1px solid ${s.color}40`,color:s.color,display:"flex",alignItems:"center",gap:4}}>
+                      <span>{s.icon}</span>{s.label}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Export */}
+                <div className="section-title" style={{marginTop:16,marginBottom:10}}>Export</div>
+                <div className="mobile-export-row">
+                  <button className="btn-ghost" style={{fontSize:12,padding:"10px 8px",display:"flex",flexDirection:"column",alignItems:"center",gap:4}}
+                    onClick={()=>exportToPDF(phases,productName,"all",activePhase)}>
+                    <span style={{fontSize:20}}>📄</span>
+                    <span>PDF Report</span>
+                    <span style={{fontSize:9,color:"var(--text3)"}}>Full lifecycle</span>
+                  </button>
+                  <button className="btn-ghost" style={{fontSize:12,padding:"10px 8px",display:"flex",flexDirection:"column",alignItems:"center",gap:4}}
+                    onClick={()=>exportToExcel(phases,productName,"all",activePhase)}>
+                    <span style={{fontSize:20}}>📊</span>
+                    <span>Excel</span>
+                    <span style={{fontSize:9,color:"var(--text3)"}}>All phases</span>
+                  </button>
+                </div>
+
+              </div>
+            )}
+          </div>
 
           {/* MOBILE AI PANEL */}
           <div className="mobile-ai-panel">
